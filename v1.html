@@ -1,0 +1,688 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>Shanghai Trip Planner</title>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    background: #0f0f1a;
+    color: #e0e0e0;
+    overflow-x: hidden;
+  }
+
+  .header {
+    background: linear-gradient(135deg, #1a1a2e, #16213e);
+    padding: 16px 20px;
+    text-align: center;
+    border-bottom: 1px solid #2a2a4a;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+  }
+  .header h1 { font-size: 20px; color: #fff; letter-spacing: 1px; }
+  .header .dates { font-size: 12px; color: #888; margin-top: 4px; }
+
+  .day-tabs {
+    display: flex;
+    overflow-x: auto;
+    background: #1a1a2e;
+    border-bottom: 1px solid #2a2a4a;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+  .day-tabs::-webkit-scrollbar { display: none; }
+  .day-tab {
+    flex: 0 0 auto;
+    padding: 12px 16px;
+    font-size: 13px;
+    color: #888;
+    border: none;
+    background: none;
+    cursor: pointer;
+    white-space: nowrap;
+    border-bottom: 2px solid transparent;
+    transition: all 0.2s;
+  }
+  .day-tab.active { color: #64b5f6; border-bottom-color: #64b5f6; }
+  .day-tab .tab-date { display: block; font-size: 10px; color: #666; margin-top: 2px; }
+
+  #map { width: 100%; height: 42vh; min-height: 260px; }
+
+  .schedule-container { padding: 16px; }
+  .day-title { font-size: 16px; font-weight: 700; color: #64b5f6; margin-bottom: 4px; }
+  .day-subtitle { font-size: 12px; color: #666; margin-bottom: 16px; }
+
+  .timeline { position: relative; padding-left: 28px; }
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 10px; top: 8px; bottom: 8px;
+    width: 2px;
+    background: #2a2a4a;
+  }
+
+  .stop {
+    position: relative;
+    margin-bottom: 14px;
+    background: #1a1a2e;
+    border-radius: 12px;
+    padding: 12px 14px;
+    border: 1px solid #2a2a4a;
+  }
+  .stop::before {
+    content: attr(data-num);
+    position: absolute;
+    left: -28px; top: 12px;
+    width: 22px; height: 22px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 11px; font-weight: 700;
+    z-index: 1;
+    color: #0f0f1a;
+  }
+  .stop.hotel::before { background: #ff8a65; }
+  .stop.food::before { background: #81c784; }
+  .stop.attraction::before { background: #64b5f6; }
+  .stop.transport::before { background: #ba68c8; }
+  .stop.cruise::before { background: #4dd0e1; }
+
+  .stop-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 4px;
+  }
+  .stop-name { font-size: 14px; font-weight: 600; color: #fff; }
+  .stop-name .cn-name { font-size: 11px; color: #888; font-weight: 400; margin-left: 6px; }
+  .stop-time { font-size: 12px; color: #64b5f6; white-space: nowrap; margin-left: 8px; }
+  .stop-desc { font-size: 13px; color: #aaa; line-height: 1.5; }
+  .stop-tip {
+    margin-top: 6px;
+    font-size: 12px;
+    color: #ffd54f;
+    background: rgba(255,213,79,0.08);
+    padding: 5px 10px;
+    border-radius: 6px;
+  }
+
+  .travel-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 4px 0;
+    margin-bottom: 8px;
+    font-size: 12px;
+    color: #666;
+  }
+
+  .legend {
+    display: flex;
+    gap: 12px;
+    padding: 8px 20px;
+    font-size: 11px;
+    color: #888;
+    flex-wrap: wrap;
+  }
+  .legend-item { display: flex; align-items: center; gap: 4px; }
+  .legend-dot { width: 10px; height: 10px; border-radius: 50%; }
+
+  .hotel-summary {
+    margin: 0 0 14px;
+    padding: 12px 14px;
+    background: linear-gradient(135deg, #2a1a1a, #1a1a2e);
+    border-radius: 12px;
+    border: 1px solid #3a2a2a;
+  }
+  .hotel-summary h3 { font-size: 13px; color: #ff8a65; margin-bottom: 4px; }
+  .hotel-summary p { font-size: 13px; color: #ccc; line-height: 1.6; }
+
+  .custom-marker { background: none; border: none; }
+  .marker-pin {
+    width: 28px; height: 28px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    color: #fff; font-size: 12px; font-weight: 700;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.4);
+    border: 2px solid #fff;
+  }
+
+  .overview-card {
+    background: #1a1a2e;
+    border-radius: 12px;
+    padding: 14px;
+    border: 1px solid #2a2a4a;
+    margin-bottom: 10px;
+    cursor: pointer;
+    transition: border-color 0.2s;
+  }
+  .overview-card:active { border-color: #64b5f6; }
+  .overview-card .ov-day { font-size: 14px; font-weight: 600; color: #64b5f6; }
+  .overview-card .ov-desc { font-size: 13px; color: #aaa; margin-top: 4px; line-height: 1.4; }
+  .overview-card .ov-spots {
+    display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px;
+  }
+  .spot-tag {
+    font-size: 11px; padding: 3px 8px; border-radius: 10px;
+    background: rgba(100,181,246,0.12); color: #64b5f6;
+  }
+  .spot-tag.food { background: rgba(129,199,132,0.12); color: #81c784; }
+  .spot-tag.hotel { background: rgba(255,138,101,0.12); color: #ff8a65; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>SHANGHAI TRIP</h1>
+  <div class="dates">2026.03.25 (Wed) - 03.29 (Sun) | 4N5D</div>
+</div>
+
+<div class="day-tabs" id="dayTabs">
+  <button class="day-tab active" data-day="0">Overview<span class="tab-date">ALL</span></button>
+  <button class="day-tab" data-day="1">DAY 1<span class="tab-date">3/25 Wed</span></button>
+  <button class="day-tab" data-day="2">DAY 2<span class="tab-date">3/26 Thu</span></button>
+  <button class="day-tab" data-day="3">DAY 3<span class="tab-date">3/27 Fri</span></button>
+  <button class="day-tab" data-day="4">DAY 4<span class="tab-date">3/28 Sat</span></button>
+  <button class="day-tab" data-day="5">DAY 5<span class="tab-date">3/29 Sun</span></button>
+</div>
+
+<div id="map"></div>
+
+<div class="legend">
+  <div class="legend-item"><div class="legend-dot" style="background:#ff8a65"></div>숙소</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#64b5f6"></div>관광</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#81c784"></div>맛집</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#ba68c8"></div>이동</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#4dd0e1"></div>유람선</div>
+</div>
+
+<div id="content"></div>
+
+<script>
+const PLACES = {
+  hongqiao: {
+    name: '홍차오 공항', cnName: '虹桥国际机场 SHA',
+    lat: 31.1979, lng: 121.3363,
+    type: 'transport',
+    desc: '상하이 서쪽 공항. 시내 접근 편리'
+  },
+  novotel: {
+    name: '노보텔 클로버', cnName: 'Novotel Shanghai Clover',
+    lat: 31.1658, lng: 121.5817,
+    type: 'hotel',
+    desc: '푸동 캉차오 지역. 디즈니랜드 약 20분 거리'
+  },
+  disney: {
+    name: '상하이 디즈니랜드', cnName: '上海迪士尼乐园',
+    lat: 31.1433, lng: 121.6580,
+    type: 'attraction',
+    desc: '트론 라이트사이클, 캐리비안의 해적 필수!'
+  },
+  yangkochi_chuansha: {
+    name: '很久以前 (촨사점)', cnName: '很久以前羊肉串 百联川沙店',
+    lat: 31.1895, lng: 121.5940,
+    type: 'food',
+    desc: '川沙路5398号 백련촨사 쇼핑센터 4층. 디즈니에서 택시 10~15분'
+  },
+  oriental_pearl: {
+    name: '동방명주', cnName: '东方明珠广播电视塔',
+    lat: 31.2397, lng: 121.4998,
+    type: 'attraction',
+    desc: '상하이 상징 타워. 전망대에서 황푸강 양안 조망'
+  },
+  lujiazui: {
+    name: '루자쭈이', cnName: '陆家嘴金融区',
+    lat: 31.2362, lng: 121.5013,
+    type: 'attraction',
+    desc: '상하이 3대 초고층 빌딩 밀집. 동방명주와 함께 관람'
+  },
+  pudong_art: {
+    name: '푸동 미술관', cnName: '浦东美术馆 MAP',
+    lat: 31.2380, lng: 121.5030,
+    type: 'attraction',
+    desc: '장 누벨 설계 현대미술관. 황푸강변 공원과 함께'
+  },
+  cruise_pier: {
+    name: '황푸강 유람선', cnName: '东方明珠码头 / 十六铺码头',
+    lat: 31.2370, lng: 121.4990,
+    type: 'cruise',
+    desc: '황푸강 유람선. 루자쭈이~와이탄 야경을 강 위에서!'
+  },
+  bund: {
+    name: '와이탄', cnName: '外滩 The Bund',
+    lat: 31.2340, lng: 121.4908,
+    type: 'attraction',
+    desc: '황푸강변 야경 명소. 동방명주 맞은편 최고의 뷰'
+  },
+  yuyuan: {
+    name: '예원', cnName: '豫园 Yu Garden',
+    lat: 31.2275, lng: 121.4920,
+    type: 'attraction',
+    desc: '400년 역사 명나라 정원. 난샹만터우뎬 바로 옆!'
+  },
+  north_bund: {
+    name: '북와이탄 빈장공원', cnName: '北外滩滨江公园',
+    lat: 31.2520, lng: 121.4940,
+    type: 'attraction',
+    desc: '황푸강변 산책로. 루자쭈이+와이탄 동시 파노라마 뷰 최고 스팟'
+  },
+  rockbund: {
+    name: '락 번드', cnName: '洛克外滩源 Rockbund',
+    lat: 31.2420, lng: 121.4920,
+    type: 'attraction',
+    desc: '와이탄 인근 역사건축 예술구. 갤러리, 카페'
+  },
+  xintiandi: {
+    name: '신천지', cnName: '新天地',
+    lat: 31.2194, lng: 121.4738,
+    type: 'attraction',
+    desc: '스쿠먼 건축 골목. 카페, 바, 레스토랑 밀집'
+  },
+  wukang: {
+    name: '우캉루 + 학맨션', cnName: '武康路 / 武康大楼',
+    lat: 31.2095, lng: 121.4365,
+    type: 'attraction',
+    desc: '프렌치 조계지 감성. 무캉다루(학맨션) 인생샷 명소'
+  },
+  prada_rongzhai: {
+    name: '프라다 롱자이', cnName: 'Prada荣宅',
+    lat: 31.2270, lng: 121.4530,
+    type: 'attraction',
+    desc: '1918년 역사 저택을 프라다가 복원. 무료 전시 공간'
+  },
+  hongde_jiuju: {
+    name: '홍더구거 (아더에러)', cnName: '陕西北路 潮流街区',
+    lat: 31.2280, lng: 121.4525,
+    type: 'attraction',
+    desc: '陕西北路457号. 아더에러 중국 첫 플래그십 + Spot Table 카페 등 핫플'
+  },
+  grand_central: {
+    name: '그랜드 센트럴 호텔', cnName: 'Grand Central Hotel Shanghai',
+    lat: 31.2350, lng: 121.4750,
+    type: 'hotel',
+    desc: '난징루 인근, 시내 관광 핵심 거점'
+  },
+  pudong_airport: {
+    name: '푸동 국제공항', cnName: '浦东国际机场 PVG',
+    lat: 31.1443, lng: 121.8083,
+    type: 'transport',
+    desc: '마글레브 or 지하철 2호선으로 시내 연결'
+  },
+  // 맛집 추천 (중간 경유)
+  nanxiang: {
+    name: '난샹만터우뎬', cnName: '南翔馒头店 (豫园店)',
+    lat: 31.2272, lng: 121.4925,
+    type: 'food',
+    desc: '1900년 개업 전통 샤오롱바오. 위위안 내 본점'
+  },
+  jiajia: {
+    name: '자자탕바오', cnName: '佳家汤包',
+    lat: 31.2283, lng: 121.4664,
+    type: 'food',
+    desc: '현지인 사랑 탕바오 맛집. 게살 샤오롱바오 필수'
+  },
+  renheguan: {
+    name: '런허관', cnName: '人和馆 肇嘉浜路店',
+    lat: 31.2050, lng: 121.4520,
+    type: 'food',
+    desc: '미쉐린 1스타 본방요리. 금패홍샤오로우, 송슈구이위 필수!'
+  },
+  hongkuijia: {
+    name: '홍쿠이지아', cnName: '红盔甲 人民广场店',
+    lat: 31.2310, lng: 121.4820,
+    type: 'food',
+    desc: '金陵东路500号 亚龙国际广场 2층. 갈릭/마라 롱샤 맛집!'
+  },
+  qingyunhua: {
+    name: '경운화 (베이징덕)', cnName: '庆云华 第一百货店',
+    lat: 31.2345, lng: 121.4790,
+    type: 'food',
+    desc: '제일백화점 내. 가성비 베이징덕 맛집. 바삭한 껍질 + 촉촉한 속살'
+  },
+  polux: {
+    name: 'Polux', cnName: 'Polux by Paul Pairet',
+    lat: 31.2195, lng: 121.4735,
+    type: 'food',
+    desc: '太仓路181弄5号 신천지. 미쉐린 빕구르망 프렌치 카페/비스트로'
+  },
+  diandude_shiji: {
+    name: '점도덕 (세기후이점)', cnName: '点都德 世纪汇店',
+    lat: 31.2330, lng: 121.5065,
+    type: 'food',
+    desc: '世纪大道1192号 世纪汇 2층. 루자쭈이 광둥식 딤섬 명가'
+  },
+  diandude_xintiandi: {
+    name: '점도덕 (환우후이점)', cnName: '点都德 环宇荟店',
+    lat: 31.2200, lng: 121.4750,
+    type: 'food',
+    desc: '신천지 환우후이 내. 광둥식 딤섬 브런치/런치 추천'
+  },
+  yangkochi_yibai: {
+    name: '很久以前 (제일백화점)', cnName: '很久以前羊肉串 南京路第一百货店',
+    lat: 31.2345, lng: 121.4790,
+    type: 'food',
+    desc: '南京东路830号 第一百货 B馆 6층. 한국인 인기 1위 매장!'
+  },
+  the_roof: {
+    name: '더 루프', cnName: 'The Roof 新天地',
+    lat: 31.2188, lng: 121.4735,
+    type: 'attraction',
+    desc: '장 누벨 설계 빨간색 건축물. 스카이가든+서점+카페. 신천지 핫플'
+  },
+  provisional_gov: {
+    name: '대한민국 임시정부', cnName: '大韩民国临时政府旧址',
+    lat: 31.2195, lng: 121.4740,
+    type: 'attraction',
+    desc: '马当路306弄4号. 1926~1932 임시정부 청사. 한국인 필수 방문지'
+  },
+  tiananqianshu: {
+    name: '천안천수', cnName: '天安千树 1000 Trees',
+    lat: 31.2425, lng: 121.4320,
+    type: 'attraction',
+    desc: '토마스 헤더윅 설계. 건물 위 나무 400그루! 쑤저우하 인근 핫플'
+  },
+  tianzifang: {
+    name: '티엔즈팡', cnName: '田子坊',
+    lat: 31.2100, lng: 121.4680,
+    type: 'attraction',
+    desc: '泰康路210弄. 골목 속 아트/카페/기념품 쇼핑 거리. 지하철 9호선 다푸차오역'
+  }
+};
+
+const DAYS = [
+  {
+    id: 'overview',
+    title: '전체 일정 Overview',
+    subtitle: '2026.03.25 - 03.29 | 4박 5일',
+    places: Object.keys(PLACES),
+    stops: []
+  },
+  {
+    id: 'day1',
+    title: 'DAY 1 - 상하이 도착',
+    subtitle: '3월 25일 (수) | 홍차오 공항 → 노보텔',
+    places: ['hongqiao', 'novotel'],
+    stops: [
+      { place: 'hongqiao', time: '22:10', note: '홍차오 공항 도착. 입국심사+수하물 약 30~45분. 짐 들고 바로 택시!', tip: 'TIP: 편의점은 호텔 건너편에 2개 있으니 공항에서 안 사도 OK!' },
+      { place: 'novotel', time: '23:30~', note: '호텔 체크인 → 건너편 편의점에서 맥주+간식 장보기 → 배달 야식!', tip: 'TIP: 편의점 필수템: 우쑤맥주(乌苏, 양꼬치 국룰!), 칭다오 백맥주(青岛白啤), 레이즈 중국한정맛(마라샹궈/오이맛), 다바이투 밀크캔디(大白兔). 배달은 택시에서 메이투안/어러머로 미리 주문! 노상 양꼬치 열려있으면 보너스!' }
+    ],
+    travels: [
+      { from: 'hongqiao', to: 'novotel', method: '택시/디디 약 40~50분 (약 45km)', icon: '🚕' }
+    ],
+    hotel: '노보텔 클로버'
+  },
+  {
+    id: 'day2',
+    title: 'DAY 2 - 디즈니랜드',
+    subtitle: '3월 26일 (목) | 디즈니 + 양꼬치',
+    places: ['novotel', 'disney', 'yangkochi_chuansha', 'novotel'],
+    stops: [
+      { place: 'novotel', time: '07:00', note: '일찍 기상! 호텔 조식 후 디즈니 오픈런 준비', tip: 'TIP: 08:30 오픈이지만 07:45~08:00 도착 목표! 입구 줄 미리 서기' },
+      { place: 'disney', time: '08:00~16:30', note: '디즈니 오픈런! 트론, 캐리비안, 소어링 필수!', tip: 'TIP: 입장 직후 트론 라이트사이클 직행! 평일이라 비교적 여유. 디즈니 앱으로 대기시간 실시간 확인. 점심은 디즈니 내에서 해결' },
+      { place: 'yangkochi_chuansha', time: '17:00~18:30', note: '촨사 백련쇼핑센터 4층 很久以前 양꼬치! 하루 놀고 든든하게', tip: 'TIP: 디즈니 → 촨사 택시 약 10~15분. 川沙路5398号 百联川沙购物中心 4层. 우쑤맥주(乌苏) 페어링 필수!' },
+      { place: 'novotel', time: '19:00~', note: '호텔 복귀. 재정비 + 내일 체크아웃 짐 정리', tip: 'TIP: 야식 배달 추천! 메이투안/어러머로 생젠바오(小杨生煎, 상하이 대표 군만두) 배달! 바삭+육즙 터지는 맛. 편의점에서 맥주 추가!' }
+    ],
+    travels: [
+      { from: 'novotel', to: 'disney', method: '택시/디디 약 15~20분', icon: '🚕' },
+      { from: 'disney', to: 'yangkochi_chuansha', method: '택시/디디 약 10~15분', icon: '🚕' },
+      { from: 'yangkochi_chuansha', to: 'novotel', method: '택시/디디 약 20분', icon: '🚕' }
+    ],
+    hotel: '노보텔 클로버'
+  },
+  {
+    id: 'day3',
+    title: 'DAY 3 - 루자쭈이 + 와이탄',
+    subtitle: '3월 27일 (금) | 푸동 핵심 → 강 건너 푸시',
+    places: ['novotel', 'grand_central', 'diandude_shiji', 'lujiazui', 'oriental_pearl', 'pudong_art', 'yuyuan', 'nanxiang', 'bund', 'rockbund', 'north_bund', 'cruise_pier', 'hongkuijia', 'yangkochi_yibai'],
+    stops: [
+      { place: 'novotel', time: '08:00', note: '체크아웃. 짐 들고 그랜드 센트럴로 이동' },
+      { place: 'grand_central', time: '09:00', note: '호텔에 짐 맡기기. 프론트에 보관 요청 후 가볍게 출발!', tip: 'TIP: 체크인 전이라도 짐 보관(行李寄存) 가능. "可以寄存行李吗?(커이지춘싱리마?)"' },
+      { place: 'diandude_shiji', time: '09:45~10:30', note: '점도덕 세기후이점에서 광둥식 딤섬 브런치!', tip: 'TIP: 世纪大道1192号 世纪汇 2층. 지하철 2호선 세기대도역. 홍미창펀(红米肠粉, 새우튀김 쌀피롤) 꼭 주문! 하가우, 차슈바오도 추천' },
+      { place: 'lujiazui', time: '10:30~11:00', note: '루자쭈이 금융지구. 상하이타워, IFC 등 초고층 빌딩 감상' },
+      { place: 'oriental_pearl', time: '11:00~12:00', note: '동방명주 전망대 관람', tip: 'TIP: 전망대 티켓 온라인 사전구매 필수! 현장 줄 김' },
+      { place: 'pudong_art', time: '12:00~12:45', note: '푸동미술관 관람 + 황푸강변 공원 산책' },
+      { place: 'yuyuan', time: '13:15~14:00', note: '예원(豫园) 관람! 400년 명나라 정원. 정교한 누각, 연못, 기암괴석', tip: 'TIP: 페리로 강 건너 도착. 입장료 약 40위안. 예원상청(豫园商城) 거리도 함께 구경' },
+      { place: 'nanxiang', time: '14:00~14:45', note: '예원 바로 옆 난샹만터우뎬에서 샤오롱바오 점심!', tip: 'TIP: 예원상청 내 위치. 1900년 개업 본점. 줄 길 수 있으니 예원 관람 후 바로!' },
+      { place: 'bund', time: '15:15~16:00', note: '와이탄 강변 산책. 유럽풍 건축물 감상', tip: 'TIP: 와이탄 주변 헤이티(喜茶) 매장에서 음료 한 잔!' },
+      { place: 'rockbund', time: '16:00~16:30', note: '락번드 예술구 산책. 갤러리, 카페' },
+      { place: 'north_bund', time: '16:45~17:30', note: '북와이탄 빈장공원! 해질녘 황푸강변 산책. 루자쭈이+와이탄 파노라마 사진 찍기', tip: 'TIP: 락번드에서 북쪽으로 도보/택시. 해 있을 때 사진 예쁘게! 3월 일몰 약 18시' },
+      { place: 'cruise_pier', time: '18:00~19:00', note: '황푸강 야경 유람선! 해질녘 탑승 추천', tip: 'TIP: 십류푸 선착장(十六铺码头)에서 출발. 약 1시간 코스. 야경 환상적!' },
+      { place: 'hongkuijia', time: '19:30~21:00', note: '홍쿠이지아에서 갈릭/마라 롱샤 저녁! 껍질 다 까진 새우가 접시 가득', tip: 'TIP: 金陵东路500号 亚龙国际广场 2층. 호텔 근처! 蒜蓉(갈릭) + 麻辣(마라) 둘 다 주문 추천' },
+      { place: 'yangkochi_yibai', time: '21:30~', note: '很久以前 제일백화점! 한국인 인기 1위 매장에서 양꼬치 야식', tip: 'TIP: 南京东路830号 第一百货 B馆 6층. 새벽 1시까지 영업! 호텔 도보 5분. 촨사점과 분위기 비교해보기' }
+    ],
+    travels: [
+      { from: 'novotel', to: 'grand_central', method: '택시 약 40분 or 지하철 2호선 약 50분', icon: '🚕' },
+      { from: 'grand_central', to: 'diandude_shiji', method: '지하철 2호선 약 10분 (인민광장→세기대도)', icon: '🚇' },
+      { from: 'diandude_shiji', to: 'lujiazui', method: '도보 5분 (같은 구역)', icon: '🚶' },
+      { from: 'lujiazui', to: 'oriental_pearl', method: '도보 5분', icon: '🚶' },
+      { from: 'oriental_pearl', to: 'pudong_art', method: '도보 5분', icon: '🚶' },
+      { from: 'pudong_art', to: 'yuyuan', method: '페리 + 도보 약 25분', icon: '🚢' },
+      { from: 'yuyuan', to: 'nanxiang', method: '도보 2분 (예원상청 내)', icon: '🚶' },
+      { from: 'nanxiang', to: 'bund', method: '도보 약 15분', icon: '🚶' },
+      { from: 'bund', to: 'rockbund', method: '도보 5분 (바로 옆)', icon: '🚶' },
+      { from: 'rockbund', to: 'north_bund', method: '도보 15분 or 택시 5분', icon: '🚶' },
+      { from: 'north_bund', to: 'cruise_pier', method: '택시 약 10분', icon: '🚕' },
+      { from: 'cruise_pier', to: 'hongkuijia', method: '택시 약 10분 (호텔 근처)', icon: '🚕' },
+      { from: 'hongkuijia', to: 'yangkochi_yibai', method: '택시 약 10분 (난징동루)', icon: '🚕' }
+    ],
+    hotel: '그랜드 센트럴 호텔'
+  },
+  {
+    id: 'day4',
+    title: 'DAY 4 - 천안천수 + 프렌치 조계지 + 신천지',
+    subtitle: '3월 28일 (토) | 천안천수, 우캉루, 런허관, 임시정부, 예상하이',
+    places: ['grand_central', 'tiananqianshu', 'prada_rongzhai', 'hongde_jiuju', 'wukang', 'renheguan', 'tianzifang', 'provisional_gov', 'the_roof', 'xintiandi', 'polux', 'yuyuan', 'qingyunhua', 'grand_central'],
+    stops: [
+      { place: 'grand_central', time: '08:30', note: '호텔 근처 길거리에서 지엔빙(煎饼) 아침! 출발 전 간단히', tip: 'TIP: 난징루/인민광장 주변 아침 노점에서 지엔빙궈쯔(煎饼果子) 구매. 5~10위안이면 든든한 아침!' },
+      { place: 'tiananqianshu', time: '09:30~10:15', note: '천안천수! 건물 위 나무 400그루, 토마스 헤더윅 건축 핫플', tip: 'TIP: 쑤저우하(苏州河) 인근. 외관 사진 + 내부 쇼핑몰 잠깐 둘러보기' },
+      { place: 'prada_rongzhai', time: '10:45~11:15', note: '프라다 롱자이 관람. 1918년 역사저택 + 현대 전시', tip: 'TIP: 무료 입장이지만 사전 예약 필요할 수 있음. 위챗 확인' },
+      { place: 'hongde_jiuju', time: '11:15~12:00', note: '홍더구거! 아더에러 플래그십 구경 + Spot Table에서 커피 한잔', tip: 'TIP: 陕西北路457号. 프라다 롱자이와 같은 거리! Spot Table 커피로 오전 충전' },
+      { place: 'wukang', time: '12:15~13:00', note: '우캉루 산책 + 소품샵 투어! 학맨션 인생샷 + 감성 쇼핑', tip: 'TIP: TAGI(塔皮屋, 乌鲁木齐中路247-5 도보5분) 컬러풀 라이프스타일 소품. OBJECT LAB 미니멀 도자기/문구. FENCHILIN 빈티지 소품. 차지(霸王茶姬) 밀크티도!' },
+      { place: 'renheguan', time: '13:00~14:00', note: '런허관에서 미쉐린 1스타 본방요리 점심! 금패홍샤오로우, 송슈구이위 필수', tip: 'TIP: 肇嘉浜路店. 우캉루에서 도보 10분. 치파오 가수 라이브도 볼 수 있음!' },
+      { place: 'tianzifang', time: '14:15~15:15', note: '티엔즈팡 골목 쇼핑! 아트숍, 카페, 기념품, 수공예품 가득', tip: 'TIP: 泰康路210弄. 지하철 9호선 다푸차오역 1번출구. 골목골목 구경하며 선물 쇼핑하기 좋음' },
+      { place: 'provisional_gov', time: '15:30~16:00', note: '대한민국 임시정부 유적지. 한국인이라면 꼭 가봐야 할 역사 현장', tip: 'TIP: 马当路306弄4号. 입장료 무료. 1926~1932 임시정부 청사' },
+      { place: 'the_roof', time: '16:00~16:30', note: '더 루프! 장 누벨 설계 빨간색 건축물. 스카이가든+서점 구경', tip: 'TIP: 신천지 내 위치. 빨간 벽돌 외관이 포토스팟! 옥상 정원에서 사진 필수' },
+      { place: 'xintiandi', time: '16:30~17:00', note: '신천지 골목 산책. 카페, 쇼핑, 스쿠먼 건축' },
+      { place: 'polux', time: '17:00~17:30', note: 'Polux에서 프렌치 카페 타임! 미쉐린 빕구르망 비스트로', tip: 'TIP: 太仓路181弄5号 신천지 내. Paul Pairet 셰프의 캐주얼 프렌치. 커피+디저트 or 가볍게 한잔' },
+      { place: 'yuyuan', time: '18:00~18:30', note: '예원상청 야경! 전통 건물에 조명이 켜지면 환상적. 낮(DAY3)과 완전 다른 분위기', tip: 'TIP: 구곡교(九曲桥) 야경이 특히 예쁨! 신천지에서 택시 10분' },
+      { place: 'qingyunhua', time: '19:00~20:00', note: '경운화에서 가성비 베이징덕으로 마지막 밤 저녁!', tip: 'TIP: 제일백화점(第一百货) 내. 호텔 도보 거리! 바삭한 껍질+촉촉한 오리고기. 반마리 주문 가능' },
+      { place: 'grand_central', time: '20:00~', note: '호텔 복귀. 난징루 야경 산책하며 마지막 밤!', tip: 'TIP: 야식 배달 추천! 자자탕바오(佳家汤包, 게살탕바오) or 마라탕 배달. 어러머/메이투안 앱 활용!' }
+    ],
+    travels: [
+      { from: 'grand_central', to: 'tiananqianshu', method: '택시 약 15분', icon: '🚕' },
+      { from: 'tiananqianshu', to: 'prada_rongzhai', method: '택시 약 15분', icon: '🚕' },
+      { from: 'prada_rongzhai', to: 'hongde_jiuju', method: '도보 5분 (같은 산시베이루)', icon: '🚶' },
+      { from: 'hongde_jiuju', to: 'wukang', method: '택시 약 10분', icon: '🚕' },
+      { from: 'wukang', to: 'renheguan', method: '도보 약 10분 (같은 프렌치 조계지)', icon: '🚶' },
+      { from: 'renheguan', to: 'tianzifang', method: '택시 약 5분', icon: '🚕' },
+      { from: 'tianzifang', to: 'provisional_gov', method: '택시 약 5분', icon: '🚕' },
+      { from: 'provisional_gov', to: 'the_roof', method: '도보 5분 (신천지 내)', icon: '🚶' },
+      { from: 'the_roof', to: 'xintiandi', method: '도보 3분', icon: '🚶' },
+      { from: 'xintiandi', to: 'polux', method: '도보 3분 (신천지 내)', icon: '🚶' },
+      { from: 'polux', to: 'yuyuan', method: '택시 약 10분', icon: '🚕' },
+      { from: 'yuyuan', to: 'qingyunhua', method: '택시 약 10분 (난징동루)', icon: '🚕' },
+      { from: 'qingyunhua', to: 'grand_central', method: '도보 5분 (호텔 바로 근처)', icon: '🚶' }
+    ],
+    hotel: '그랜드 센트럴 호텔'
+  },
+  {
+    id: 'day5',
+    title: 'DAY 5 - 귀국',
+    subtitle: '3월 29일 (일) | 푸동공항 10시 출발',
+    places: ['grand_central', 'pudong_airport'],
+    stops: [
+      { place: 'grand_central', time: '06:30', note: '체크아웃. 공항으로 이동 시작', tip: 'TIP: 10시 비행기 → 7시 공항 도착 목표. 여유있게 출발!' },
+      { place: 'pudong_airport', time: '07:30~08:00', note: '푸동공항 도착. 출국수속 + 면세점 쇼핑' }
+    ],
+    travels: [
+      { from: 'grand_central', to: 'pudong_airport', method: '지하철 2호선 직행 약 1시간 or 택시 약 50분', icon: '🚇' }
+    ],
+    hotel: null
+  }
+];
+
+// ===== MAP =====
+const map = L.map('map', {
+  zoomControl: false,
+  attributionControl: false
+}).setView([31.20, 121.50], 11);
+
+L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+  maxZoom: 18
+}).addTo(map);
+
+L.control.zoom({ position: 'topright' }).addTo(map);
+
+const typeColors = {
+  hotel: '#ff8a65',
+  attraction: '#64b5f6',
+  food: '#81c784',
+  transport: '#ba68c8',
+  cruise: '#4dd0e1'
+};
+
+let currentMarkers = [];
+let currentLines = [];
+
+function clearMap() {
+  currentMarkers.forEach(m => map.removeLayer(m));
+  currentLines.forEach(l => map.removeLayer(l));
+  currentMarkers = [];
+  currentLines = [];
+}
+
+function createMarkerIcon(num, type) {
+  const color = typeColors[type] || '#64b5f6';
+  return L.divIcon({
+    className: 'custom-marker',
+    html: '<div class="marker-pin" style="background:' + color + '">' + num + '</div>',
+    iconSize: [28, 28],
+    iconAnchor: [14, 14]
+  });
+}
+
+function showDay(dayIndex) {
+  clearMap();
+  const day = DAYS[dayIndex];
+  const bounds = [];
+  const seen = new Set();
+
+  day.places.forEach((key, i) => {
+    if (seen.has(key)) return;
+    seen.add(key);
+    const p = PLACES[key];
+    const marker = L.marker([p.lat, p.lng], {
+      icon: createMarkerIcon(seen.size, p.type)
+    }).addTo(map);
+    marker.bindPopup('<b>' + p.name + '</b><br>' + p.cnName + '<br><small>' + p.desc + '</small>');
+    currentMarkers.push(marker);
+    bounds.push([p.lat, p.lng]);
+  });
+
+  if (day.places.length > 1 && dayIndex > 0) {
+    const uniquePlaces = [...new Set(day.places)];
+    const coords = uniquePlaces.map(k => [PLACES[k].lat, PLACES[k].lng]);
+    const line = L.polyline(coords, {
+      color: '#64b5f6',
+      weight: 2,
+      opacity: 0.5,
+      dashArray: '6,8'
+    }).addTo(map);
+    currentLines.push(line);
+  }
+
+  if (bounds.length > 0) {
+    map.fitBounds(bounds, { padding: [40, 40], maxZoom: 14 });
+  }
+}
+
+// ===== RENDER =====
+function renderDay(dayIndex) {
+  const day = DAYS[dayIndex];
+  let html = '<div class="schedule-container">';
+  html += '<div class="day-title">' + day.title + '</div>';
+  html += '<div class="day-subtitle">' + day.subtitle + '</div>';
+
+  if (day.hotel) {
+    html += '<div class="hotel-summary"><h3>숙소</h3><p>' + day.hotel + '</p></div>';
+  }
+
+  if (dayIndex === 0) {
+    html += '<div class="hotel-summary"><h3>숙소 정보</h3>';
+    html += '<p>3/25~26 (2박): 노보텔 클로버 (푸동, 디즈니 인근)<br>';
+    html += '3/27~28 (2박): 그랜드 센트럴 호텔 (푸시, 난징루 인근)</p></div>';
+
+    html += '<div class="hotel-summary"><h3>입출국</h3>';
+    html += '<p>IN: 3/25 홍차오 공항(虹桥) 23:00 도착<br>';
+    html += 'OUT: 3/29 푸동 공항(浦东) 10:00 출발</p></div>';
+
+    DAYS.slice(1).forEach(function(d, i) {
+      const dayPlaces = [...new Set(d.places)].filter(function(k) {
+        return PLACES[k].type !== 'hotel';
+      });
+      html += '<div class="overview-card" onclick="selectDay(' + (i+1) + ')">';
+      html += '<div class="ov-day">' + d.title + '</div>';
+      html += '<div class="ov-desc">' + d.subtitle + '</div>';
+      html += '<div class="ov-spots">';
+      dayPlaces.forEach(function(k) {
+        const p = PLACES[k];
+        var tagClass = 'spot-tag';
+        if (p.type === 'food') tagClass += ' food';
+        html += '<span class="' + tagClass + '">' + p.name + '</span>';
+      });
+      html += '</div></div>';
+    });
+  } else {
+    html += '<div class="timeline">';
+    day.stops.forEach(function(stop, i) {
+      var p = PLACES[stop.place];
+      var travel = day.travels && day.travels[i] ? day.travels[i] : null;
+
+      html += '<div class="stop ' + p.type + '" data-num="' + (i+1) + '">';
+      html += '<div class="stop-header">';
+      html += '<div class="stop-name">' + p.name + '<span class="cn-name">' + p.cnName + '</span></div>';
+      html += '<div class="stop-time">' + stop.time + '</div>';
+      html += '</div>';
+      html += '<div class="stop-desc">' + stop.note + '</div>';
+      if (stop.tip) {
+        html += '<div class="stop-tip">' + stop.tip + '</div>';
+      }
+      html += '</div>';
+
+      if (travel) {
+        html += '<div class="travel-info">';
+        html += '<span class="travel-icon">' + travel.icon + '</span>';
+        html += '<span>' + travel.method + '</span>';
+        html += '</div>';
+      }
+    });
+    html += '</div>';
+  }
+
+  html += '</div>';
+  document.getElementById('content').innerHTML = html;
+}
+
+function selectDay(dayIndex) {
+  document.querySelectorAll('.day-tab').forEach(function(t) { t.classList.remove('active'); });
+  document.querySelectorAll('.day-tab')[dayIndex].classList.add('active');
+  showDay(dayIndex);
+  renderDay(dayIndex);
+  window.scrollTo(0, 0);
+}
+
+document.querySelectorAll('.day-tab').forEach(function(tab) {
+  tab.addEventListener('click', function() {
+    selectDay(parseInt(tab.dataset.day));
+  });
+});
+
+showDay(0);
+renderDay(0);
+</script>
+</body>
+</html>

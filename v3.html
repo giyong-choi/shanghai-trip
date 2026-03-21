@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>Shanghai Trip - Smart Planner</title>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #0f0f1a; color: #e0e0e0; overflow-x: hidden; }
+  .header { background: linear-gradient(135deg, #1a1a2e, #16213e); padding: 14px 20px; text-align: center; border-bottom: 1px solid #2a2a4a; position: sticky; top: 0; z-index: 1000; }
+  .header h1 { font-size: 18px; color: #fff; letter-spacing: 1px; }
+  .header .dates { font-size: 11px; color: #888; margin-top: 3px; }
+
+  .mode-selector { display: flex; gap: 6px; padding: 10px 12px; background: #12121f; border-bottom: 1px solid #2a2a4a; flex-wrap: wrap; position: sticky; top: 58px; z-index: 999; }
+  .mode-btn { flex: 1; min-width: 70px; padding: 8px 4px; font-size: 11px; border: 1px solid #333; border-radius: 8px; background: #1a1a2e; color: #888; cursor: pointer; text-align: center; line-height: 1.3; transition: all 0.2s; }
+  .mode-btn.active { border-color: #64b5f6; color: #64b5f6; background: rgba(100,181,246,0.1); }
+  .mode-btn .mode-icon { font-size: 16px; display: block; margin-bottom: 2px; }
+
+  .day-tabs { display: flex; overflow-x: auto; background: #1a1a2e; border-bottom: 1px solid #2a2a4a; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
+  .day-tabs::-webkit-scrollbar { display: none; }
+  .day-tab { flex: 0 0 auto; padding: 10px 16px; font-size: 13px; color: #888; border: none; background: none; cursor: pointer; white-space: nowrap; border-bottom: 2px solid transparent; transition: all 0.2s; }
+  .day-tab.active { color: #64b5f6; border-bottom-color: #64b5f6; }
+  .day-tab .tab-date { display: block; font-size: 10px; color: #666; margin-top: 2px; }
+
+  #map { width: 100%; height: 38vh; min-height: 220px; }
+
+  .schedule-container { padding: 14px; }
+  .day-title { font-size: 15px; font-weight: 700; color: #64b5f6; margin-bottom: 3px; }
+  .day-subtitle { font-size: 12px; color: #666; margin-bottom: 14px; }
+
+  .timeline { position: relative; padding-left: 28px; }
+  .timeline::before { content: ''; position: absolute; left: 10px; top: 8px; bottom: 8px; width: 2px; background: #2a2a4a; }
+
+  .stop { position: relative; margin-bottom: 12px; background: #1a1a2e; border-radius: 10px; padding: 11px 13px; border: 1px solid #2a2a4a; }
+  .stop::before { content: attr(data-num); position: absolute; left: -28px; top: 11px; width: 20px; height: 20px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: 700; z-index: 1; color: #0f0f1a; }
+  .stop.hotel::before { background: #ff8a65; }
+  .stop.food::before { background: #81c784; }
+  .stop.attraction::before { background: #64b5f6; }
+  .stop.transport::before { background: #ba68c8; }
+  .stop.cruise::before { background: #4dd0e1; }
+  .stop.rest::before { background: #ffd54f; }
+
+  .stop-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 3px; }
+  .stop-name { font-size: 13px; font-weight: 600; color: #fff; }
+  .stop-name .cn-name { font-size: 10px; color: #888; font-weight: 400; margin-left: 5px; }
+  .stop-time { font-size: 11px; color: #64b5f6; white-space: nowrap; margin-left: 6px; }
+  .stop-desc { font-size: 12px; color: #aaa; line-height: 1.4; }
+  .stop-tip { margin-top: 5px; font-size: 11px; color: #ffd54f; background: rgba(255,213,79,0.08); padding: 4px 8px; border-radius: 5px; }
+  .stop-badge { display: inline-block; font-size: 9px; padding: 1px 5px; border-radius: 4px; margin-left: 4px; }
+  .badge-skip { background: rgba(255,82,82,0.15); color: #ff5252; }
+  .badge-alt { background: rgba(255,213,79,0.15); color: #ffd54f; }
+  .badge-add { background: rgba(100,181,246,0.15); color: #64b5f6; }
+
+  .travel-info { display: flex; align-items: center; gap: 8px; padding: 3px 0; margin-bottom: 6px; font-size: 11px; color: #555; }
+
+  .hotel-summary { margin: 0 0 12px; padding: 10px 12px; background: linear-gradient(135deg, #2a1a1a, #1a1a2e); border-radius: 10px; border: 1px solid #3a2a2a; }
+  .hotel-summary h3 { font-size: 12px; color: #ff8a65; margin-bottom: 3px; }
+  .hotel-summary p { font-size: 12px; color: #ccc; line-height: 1.5; }
+
+  .custom-marker { background: none; border: none; }
+  .marker-pin { width: 26px; height: 26px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #fff; font-size: 11px; font-weight: 700; box-shadow: 0 2px 6px rgba(0,0,0,0.4); border: 2px solid #fff; }
+
+  .prep-section { margin: 14px; padding: 12px; background: #1a1a2e; border-radius: 10px; border: 1px solid #2a2a4a; }
+  .prep-section h3 { font-size: 13px; color: #64b5f6; margin-bottom: 8px; }
+  .prep-item { font-size: 12px; color: #aaa; line-height: 1.8; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>SHANGHAI TRIP v3</h1>
+  <div class="dates">2026.03.25 - 03.29 | 4N5D | Smart Mode</div>
+</div>
+
+<div class="mode-selector">
+  <button class="mode-btn active" data-mode="full-sun"><span class="mode-icon">&#9728;&#65039;</span>Full+Sunny</button>
+  <button class="mode-btn" data-mode="full-rain"><span class="mode-icon">&#127782;&#65039;</span>Full+Rain</button>
+  <button class="mode-btn" data-mode="lite-sun"><span class="mode-icon">&#9968;</span>Lite+Sunny</button>
+  <button class="mode-btn" data-mode="lite-rain"><span class="mode-icon">&#9681;</span>Lite+Rain</button>
+</div>
+
+<div class="day-tabs" id="dayTabs">
+  <button class="day-tab active" data-day="0">Prep<span class="tab-date">CHECK</span></button>
+  <button class="day-tab" data-day="1">DAY 1<span class="tab-date">3/25</span></button>
+  <button class="day-tab" data-day="2">DAY 2<span class="tab-date">3/26</span></button>
+  <button class="day-tab" data-day="3">DAY 3<span class="tab-date">3/27</span></button>
+  <button class="day-tab" data-day="4">DAY 4<span class="tab-date">3/28</span></button>
+  <button class="day-tab" data-day="5">DAY 5<span class="tab-date">3/29</span></button>
+</div>
+
+<div id="map"></div>
+<div id="content"></div>
+
+<script>
+var currentMode = 'full-sun';
+var currentDay = 0;
+
+// ===== PLACES =====
+var P = {
+  hongqiao: { n:'Hong Qiao Airport', c:'SHA', lat:31.1979, lng:121.3363, t:'transport' },
+  novotel: { n:'Novotel Clover', c:'', lat:31.1658, lng:121.5817, t:'hotel' },
+  disney: { n:'Disney', c:'', lat:31.1433, lng:121.6580, t:'attraction' },
+  yangkochi_cs: { n:'HenJiuYiQian CS', c:'', lat:31.1895, lng:121.5940, t:'food' },
+  grand_central: { n:'Grand Central', c:'', lat:31.2350, lng:121.4750, t:'hotel' },
+  pudong_airport: { n:'PVG Airport', c:'', lat:31.1443, lng:121.8083, t:'transport' },
+  diandude: { n:'DianDuDe', c:'', lat:31.2330, lng:121.5065, t:'food' },
+  lujiazui: { n:'LuJiaZui', c:'', lat:31.2362, lng:121.5013, t:'attraction' },
+  oriental: { n:'Oriental Pearl', c:'', lat:31.2397, lng:121.4998, t:'attraction' },
+  pudong_art: { n:'Pudong Art Museum', c:'', lat:31.2380, lng:121.5030, t:'attraction' },
+  yuyuan: { n:'Yu Garden', c:'', lat:31.2275, lng:121.4920, t:'attraction' },
+  nanxiang: { n:'NanXiang', c:'', lat:31.2272, lng:121.4925, t:'food' },
+  bund: { n:'The Bund', c:'', lat:31.2340, lng:121.4908, t:'attraction' },
+  north_bund: { n:'North Bund Park', c:'', lat:31.2520, lng:121.4940, t:'attraction' },
+  rockbund: { n:'Rockbund', c:'', lat:31.2420, lng:121.4920, t:'attraction' },
+  cruise: { n:'River Cruise', c:'', lat:31.2370, lng:121.4990, t:'cruise' },
+  hongkuijia: { n:'HongKuiJia', c:'', lat:31.2310, lng:121.4820, t:'food' },
+  yangkochi_yb: { n:'HenJiuYiQian YB', c:'', lat:31.2345, lng:121.4790, t:'food' },
+  manner: { n:'Manner Coffee', c:'', lat:31.2510, lng:121.4950, t:'food' },
+  tiananqs: { n:'1000 Trees', c:'', lat:31.2425, lng:121.4320, t:'attraction' },
+  prada: { n:'Prada RongZhai', c:'', lat:31.2270, lng:121.4530, t:'attraction' },
+  hongde: { n:'HongDe+AderError', c:'', lat:31.2280, lng:121.4525, t:'attraction' },
+  wukang: { n:'WuKang Road', c:'', lat:31.2095, lng:121.4365, t:'attraction' },
+  renheguan: { n:'RenHeGuan', c:'', lat:31.2050, lng:121.4520, t:'food' },
+  tianzifang: { n:'TianZiFang', c:'', lat:31.2100, lng:121.4680, t:'attraction' },
+  provisional: { n:'KR Provisional Gov', c:'', lat:31.2195, lng:121.4740, t:'attraction' },
+  the_roof: { n:'The Roof', c:'', lat:31.2188, lng:121.4735, t:'attraction' },
+  xintiandi: { n:'XinTianDi', c:'', lat:31.2194, lng:121.4738, t:'attraction' },
+  polux: { n:'Polux', c:'', lat:31.2195, lng:121.4735, t:'food' },
+  qingyunhua: { n:'QingYunHua', c:'', lat:31.2345, lng:121.4790, t:'food' },
+  haidilao: { n:'HaiDiLao', c:'', lat:31.2330, lng:121.4760, t:'food' },
+  bailianZX: { n:'BaiLian ZX', c:'', lat:31.2355, lng:121.4785, t:'attraction' },
+  anpulu: { n:'AnFu Road', c:'', lat:31.2160, lng:121.4420, t:'attraction' },
+  juluru: { n:'JuLu Road', c:'', lat:31.2250, lng:121.4550, t:'attraction' }
+};
+
+// ===== DAYS DATA BY MODE =====
+var DAYS = {
+  0: { title: 'Trip Prep', subtitle: 'Check Before You Go', all: true },
+  1: { title: 'DAY 1 - Arrive', subtitle: '3/25 (Wed) | HongQiao -> Novotel', all: true },
+  2: { title: 'DAY 2 - Disney', subtitle: '3/26 (Thu) | Disney + YangKoChi', all: true },
+  3: { title: 'DAY 3 - PuDong + Bund', subtitle: '3/27 (Fri)' },
+  4: { title: 'DAY 4 - French + XinTianDi', subtitle: '3/28 (Sat)' },
+  5: { title: 'DAY 5 - Go Home', subtitle: '3/29 (Sun) | PVG 10:00', all: true }
+};
+
+function getStops(day, mode) {
+  var isFull = mode.indexOf('full') >= 0;
+  var isRain = mode.indexOf('rain') >= 0;
+
+  if (day === 0) return [
+    {t:'', n:'VPN App', d:'Google/Insta/KakaoTalk blocked in China. Install VPN before departure!', type:'transport'},
+    {t:'', n:'WeChat Pay / AliPay', d:'Many shops are cashless. Set up mobile payment in advance', type:'transport'},
+    {t:'', n:'DiDi App (taxi)', d:'Install DiDi (Chinese Uber). Link payment method', type:'transport'},
+    {t:'', n:'MeiTuan / Ele.me', d:'Delivery apps. Essential for late night food orders', type:'food'},
+    {t:'', n:'eSIM / SIM Card', d:'Buy China eSIM before departure. Data essential for maps & apps', type:'transport'},
+    {t:'', n:'Disney App', d:'Shanghai Disney Resort app for wait times & FastPass', type:'attraction'},
+    {t:'', n:'Umbrella + Layers', d:'March Shanghai: 8-16C, rain possible. Bring umbrella & layers', type:'transport'},
+    {t:'', n:'Portable Charger', d:'Full day out = phone dies. 10000mAh+ recommended', type:'transport'}
+  ];
+
+  if (day === 1) return [
+    {t:'22:10', n:'HongQiao Airport', d:'Arrive. Immigration ~30-45min', tip:'Convenience stores near hotel, skip airport shopping', type:'transport', p:'hongqiao'},
+    {t:'23:30~', n:'Novotel Check-in', d:'Convenience store (across street) + delivery food', tip:'WuSu beer + Lays China Edition + DaBaiTu candy. Order delivery in taxi!', type:'hotel', p:'novotel'}
+  ];
+
+  if (day === 2) return [
+    {t:'07:00', n:'Hotel Breakfast', d:'Eat well, big day ahead', type:'hotel', p:'novotel'},
+    {t:'08:00', n:'Disney Opening Rush', d:'Arrive 07:45. TRON first! Then Caribbean, Soaring', tip:'Use Disney app for wait times. Turkey leg = Insta must', type:'attraction', dur:'8.5h', p:'disney'},
+    {t:'17:00', n:'HenJiuYiQian (ChuanSha)', d:'Lamb skewers + WuSu beer after Disney!', tip:'BaiLian ChuanSha Mall 4F. Taxi 10-15min from Disney', type:'food', dur:'1.5h', p:'yangkochi_cs'},
+    {t:'19:00', n:'Hotel + Delivery', d:'Rest + ShengJianBao delivery for late snack', type:'hotel', p:'novotel'}
+  ];
+
+  if (day === 5) return [
+    {t:'06:30', n:'Check out', d:'Head to PVG airport', tip:'Target 07:30 arrival. Metro Line 2 ~1hr or taxi ~50min', type:'transport', p:'grand_central'},
+    {t:'07:30', n:'PVG Airport', d:'Immigration + Duty Free', type:'transport', p:'pudong_airport'}
+  ];
+
+  // ===== DAY 3 =====
+  if (day === 3) {
+    var stops = [
+      {t:'08:00', n:'Checkout Novotel', d:'Luggage to Grand Central', type:'hotel', p:'novotel'},
+      {t:'09:00', n:'Grand Central (luggage)', d:'Drop bags + JianBing breakfast nearby', tip:'"Ke yi ji cun xing li ma?" for luggage storage', type:'hotel', dur:'30m', p:'grand_central'},
+      {t:'09:45', n:'DianDuDe (Brunch)', d:'HongMi ChangFen must order! HaGau, ChaShuBao', tip:'Century Link Mall 2F. Metro Line 2', type:'food', dur:'45m', p:'diandude'}
+    ];
+    stops.push({t:'10:30', n:'LuJiaZui District', d:'Shanghai Tower, IFC skyscrapers', type:'attraction', dur:'30m', p:'lujiazui'});
+    stops.push({t:'11:00', n:'Oriental Pearl Tower', d:'Observatory deck', tip:'Buy tickets online!', type:'attraction', dur:'1h', p:'oriental'});
+
+    if (isFull) {
+      stops.push({t:'12:00', n:'Pudong Art Museum', d:'Jean Nouvel design + riverside park walk', type:'attraction', dur:'45m', p:'pudong_art'});
+    }
+
+    stops.push({t: isFull?'13:00':'12:30', n:'Yu Garden', d:'400yr Ming Dynasty garden + YuYuan Market', tip:'Ferry across river = content itself!', type:'attraction', dur:'30m', p:'yuyuan'});
+    stops.push({t: isFull?'13:30':'13:00', n:'NanXiang XiaoLongBao', d:'Lunch! 1900 original shop', tip:'Inside YuYuan Market. Queue ~20min', type:'food', dur:'45m', p:'nanxiang'});
+
+    if (!isRain) {
+      stops.push({t: isFull?'14:30':'14:00', n:'The Bund Walk', d:'Huangpu riverside, European architecture', type:'attraction', dur:'45m', p:'bund'});
+      if (isFull) {
+        stops.push({t:'15:15', n:'Rockbund Art District', d:'Historic buildings, galleries', type:'attraction', dur:'30m', p:'rockbund'});
+      }
+      // Afternoon = best light for North Bund photos
+      stops.push({t: isFull?'16:00':'15:30', n:'Manner Coffee (DongFangMingZhu View)', d:'AFTERNOON LIGHT = best photos! Sun behind you, Pearl Tower lit up', tip:'Manner Coffee GuoKe BinJiang. 3000won coffee, million dollar view', type:'food', dur:'45m', p:'manner'});
+      stops.push({t: isFull?'16:45':'16:15', n:'North Bund Park', d:'AFTERNOON = perfect light for panorama! Sun illuminates Pearl Tower', tip:'Right next to Manner Coffee. Golden hour photos!', type:'attraction', dur:'30m', p:'north_bund'});
+    } else {
+      // Rain alternatives
+      stops.push({t: isFull?'14:30':'14:00', n:'The Bund (Brief)', d:'Quick walk with umbrella or skip if heavy rain', type:'attraction', dur:'20m', p:'bund'});
+      if (isFull) {
+        stops.push({t:'15:00', n:'BaiLian ZX (Indoor Shopping)', d:'Anime/subculture mall near NanJing Rd. Rain-proof!', tip:'NanJingDongLu station. 6 floors of fun', type:'attraction', dur:'1h', p:'bailianZX'});
+      }
+      stops.push({t: isFull?'16:00':'15:30', n:'Hotel Rest', d:'Check in, rest, recharge for evening', type:'hotel', dur:'1h', p:'grand_central'});
+    }
+
+    if (!isRain) {
+      stops.push({t: isFull?'17:30':'17:00', n:'River Cruise (Sunset)', d:'Board at sunset for best views!', tip:'ShiLiuPu Pier. ~1hr cruise. Insta reels must!', type:'cruise', dur:'1h', p:'cruise'});
+    }
+
+    if (isFull && !isRain) {
+      stops.push({t:'19:00', n:'HongKuiJia (Crawfish)', d:'Garlic + MaLa crawfish! Shells pre-peeled', tip:'JinLingDongLu 500. Order both garlic & mala', type:'food', dur:'1.5h', p:'hongkuijia'});
+      stops.push({t:'21:00', n:'HenJiuYiQian (No.1 Dept)', d:'THE Insta spot. Cooling patch + skewers + beer', tip:'Open till 1AM! Walk from hotel', type:'food', dur:'1.5h', p:'yangkochi_yb'});
+    } else if (isFull && isRain) {
+      stops.push({t:'18:00', n:'HongKuiJia (Crawfish)', d:'Garlic + MaLa crawfish dinner!', type:'food', dur:'1.5h', p:'hongkuijia'});
+      stops.push({t:'20:00', n:'HenJiuYiQian (No.1 Dept)', d:'Indoor! Rain no problem. Cooling patch + skewers', tip:'Open till 1AM', type:'food', dur:'1.5h', p:'yangkochi_yb'});
+    } else {
+      stops.push({t: isRain?'17:30':'18:30', n:'HenJiuYiQian (No.1 Dept)', d:'Lamb skewers dinner! Walk from hotel', tip:'Open till 1AM. Cooling patch + beer = Insta set', type:'food', dur:'1.5h', p:'yangkochi_yb'});
+    }
+
+    if (!isFull) {
+      stops.push({t:'20:30', n:'Hotel Rest', d:'Early rest. Delivery snack if hungry', tip:'Order MaLaTang or JiaJia TangBao delivery', type:'hotel', p:'grand_central'});
+    }
+
+    return stops;
+  }
+
+  // ===== DAY 4 =====
+  if (day === 4) {
+    var stops = [
+      {t:'08:30', n:'JianBing Breakfast', d:'Street vendor near hotel. 5-10 yuan', type:'food', p:'grand_central'}
+    ];
+
+    if (!isRain) {
+      stops.push({t:'09:30', n:'1000 Trees', d:'Heatherwick architecture. 400 trees on building!', tip:'SuZhou River area. Exterior photos!', type:'attraction', dur:'45m', p:'tiananqs'});
+    }
+
+    if (isFull && !isRain) {
+      stops.push({t:'10:30', n:'Prada RongZhai', d:'1918 mansion restored by Prada', tip:'Free but may need reservation via WeChat', type:'attraction', dur:'30m', p:'prada'});
+      stops.push({t:'11:00', n:'HongDe + Ader Error', d:'Ader Error flagship + Spot Table coffee', tip:'ShanXiBeiLu 457. Walk 5min from Prada', type:'attraction', dur:'45m', p:'hongde'});
+    } else if (isRain) {
+      stops.push({t: isFull?'09:30':'09:30', n:'Prada RongZhai (Indoor)', d:'Perfect rainy day spot! Indoor exhibition', tip:'Free entry. Beautiful interior', type:'attraction', dur:'45m', p:'prada'});
+      if (isFull) {
+        stops.push({t:'10:15', n:'HongDe + Ader Error (Indoor)', d:'Indoor shopping! Ader Error + Spot Table coffee', type:'attraction', dur:'45m', p:'hongde'});
+      }
+    }
+
+    if (!isRain) {
+      stops.push({t: isFull?'11:45':'10:30', n:'WuKang Road + Mansion', d:'THE Insta photo spot! TAGI, OBJECT LAB shops. CHAGEE milk tea', tip:'Noon light OK for photos. Mansion facade faces north = consistent light', type:'attraction', dur:'45m', p:'wukang'});
+    }
+
+    stops.push({t: (isFull && !isRain)?'12:45':(isRain?'11:15':'11:30'), n: isFull?'RenHeGuan (Michelin Lunch)':'RenHeGuan or HaiDiLao', d: isFull?'Michelin 1-star Shanghai cuisine! HongShaoRou, SongShuGuiYu must order':'Choose: RenHeGuan (Michelin local) or HaiDiLao (hotpot + nail service)', tip: isFull?'ZhaoJiaBangLu branch. QiPao singer live!':'HaiDiLao: free nail art + snacks while waiting!', type:'food', dur:'1h15m', p:'renheguan'});
+
+    if (isFull) {
+      if (!isRain) {
+        stops.push({t:'14:15', n:'TianZiFang', d:'Alley shopping! Art, crafts, souvenirs', tip:'TaiKangLu 210. Metro Line 9', type:'attraction', dur:'45m', p:'tianzifang'});
+      }
+      stops.push({t: isRain?'12:45':'15:15', n:'KR Provisional Government', d:'Must visit for Koreans. Free entry', tip:'MaDangLu 306. 1926-1932 site', type:'attraction', dur:'30m', p:'provisional'});
+    } else {
+      stops.push({t: isRain?'12:45':'13:00', n:'KR Provisional Government', d:'Must visit. Free entry', type:'attraction', dur:'30m', p:'provisional'});
+    }
+
+    stops.push({t: (isFull&&!isRain)?'16:00':(isFull&&isRain)?'13:30':isRain?'13:30':'13:45', n:'The Roof', d:'Jean Nouvel red architecture. Sky garden!', tip:'Inside XinTianDi. Red brick = photo spot!', type:'attraction', dur:'20m', p:'the_roof'});
+
+    stops.push({t: (isFull&&!isRain)?'16:30':(isFull&&isRain)?'14:00':isRain?'14:00':'14:15', n:'XinTianDi Walk', d:'ShiKuMen streets. Cafes, shops', tip:'HEYTEA or Polux for a drink!', type:'attraction', dur:'30m', p:'xintiandi'});
+
+    if (isFull) {
+      stops.push({t: isRain?'14:30':'17:00', n:'Polux Cafe', d:'Michelin Bib Gourmand French bistro', tip:'TaiCangLu 181. Paul Pairet chef. Coffee+dessert', type:'food', dur:'30m', p:'polux'});
+    }
+
+    if (!isFull) {
+      stops.push({t: isRain?'14:30':'14:45', n:'Hotel Rest', d:'Recharge at hotel. 1hr break', type:'hotel', dur:'1h', p:'grand_central'});
+    }
+
+    if (!isRain) {
+      stops.push({t: isFull?'18:15':'17:00', n:'YuYuan Night Market', d:'Traditional buildings lit up! Different from DAY3 daytime visit', tip:'Sunset ~18:10. Arrive right after for perfect lighting! JiuQuQiao bridge!', type:'attraction', dur:'30m', p:'yuyuan'});
+    }
+
+    stops.push({t: (isFull&&!isRain)?'19:00':(isFull&&isRain)?'16:00':isRain?'16:00':'18:00', n:'QingYunHua (Peking Duck)', d:'Last dinner! Budget-friendly Peking Duck', tip:'Inside No.1 Dept Store. Walk to hotel! Half duck order OK', type:'food', dur:'1h', p:'qingyunhua'});
+
+    stops.push({t: (isFull&&!isRain)?'20:00':(isFull&&isRain)?'17:30':isRain?'17:30':'19:30', n:'Hotel + Last Night', d:'NanJing Rd night walk. Delivery snack!', tip:'MaLaTang or JiaJia TangBao delivery for final snack', type:'hotel', p:'grand_central'});
+
+    return stops;
+  }
+  return [];
+}
+
+// ===== MAP =====
+var map = L.map('map', { zoomControl: false, attributionControl: false }).setView([31.20, 121.50], 11);
+L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', { maxZoom: 18 }).addTo(map);
+L.control.zoom({ position: 'topright' }).addTo(map);
+
+var typeColors = { hotel:'#ff8a65', attraction:'#64b5f6', food:'#81c784', transport:'#ba68c8', cruise:'#4dd0e1', rest:'#ffd54f' };
+var markers = [], lines = [];
+
+function clearMap() { markers.forEach(function(m){map.removeLayer(m)}); lines.forEach(function(l){map.removeLayer(l)}); markers=[]; lines=[]; }
+
+function showMap(day) {
+  clearMap();
+  var stops = getStops(day, currentMode);
+  var bounds = [];
+  var seen = {};
+  var num = 0;
+  stops.forEach(function(s) {
+    if (!s.p || seen[s.p]) return;
+    seen[s.p] = true;
+    var pl = P[s.p];
+    if (!pl) return;
+    num++;
+    var color = typeColors[pl.t] || '#64b5f6';
+    var icon = L.divIcon({ className:'custom-marker', html:'<div class="marker-pin" style="background:'+color+'">'+num+'</div>', iconSize:[26,26], iconAnchor:[13,13] });
+    var m = L.marker([pl.lat, pl.lng], {icon:icon}).addTo(map);
+    m.bindPopup('<b>'+pl.n+'</b>');
+    markers.push(m);
+    bounds.push([pl.lat, pl.lng]);
+  });
+  if (bounds.length > 1) {
+    var coords = [];
+    Object.keys(seen).forEach(function(k){ var pl=P[k]; if(pl) coords.push([pl.lat,pl.lng]); });
+    var line = L.polyline(coords, {color:'#64b5f6',weight:2,opacity:0.4,dashArray:'6,8'}).addTo(map);
+    lines.push(line);
+  }
+  if (bounds.length > 0) map.fitBounds(bounds, {padding:[30,30], maxZoom:14});
+}
+
+function render(day) {
+  var info = DAYS[day];
+  var stops = getStops(day, currentMode);
+  var modeLabel = currentMode === 'full-sun' ? 'Full+Sunny' : currentMode === 'full-rain' ? 'Full+Rainy' : currentMode === 'lite-sun' ? 'Lite+Sunny' : 'Lite+Rainy';
+
+  var html = '<div class="schedule-container">';
+  html += '<div class="day-title">' + info.title + '</div>';
+  html += '<div class="day-subtitle">' + info.subtitle + ' | ' + modeLabel + '</div>';
+
+  if (day === 0) {
+    html += '<div class="prep-section"><h3>Must-Do Before Trip</h3>';
+    stops.forEach(function(s) {
+      html += '<div class="prep-item">' + (s.type==='transport'?'&#128736; ':'&#127860; ') + '<b>' + s.n + '</b> - ' + s.d + '</div>';
+    });
+    html += '</div>';
+  } else {
+    html += '<div class="timeline">';
+    stops.forEach(function(s, i) {
+      html += '<div class="stop ' + s.type + '" data-num="' + (i+1) + '">';
+      html += '<div class="stop-header"><div class="stop-name">' + s.n;
+      if (s.dur) html += ' <span class="cn-name">(' + s.dur + ')</span>';
+      html += '</div><div class="stop-time">' + s.t + '</div></div>';
+      html += '<div class="stop-desc">' + s.d + '</div>';
+      if (s.tip) html += '<div class="stop-tip">' + s.tip + '</div>';
+      html += '</div>';
+    });
+    html += '</div>';
+  }
+  html += '</div>';
+  document.getElementById('content').innerHTML = html;
+}
+
+function selectDay(d) {
+  currentDay = d;
+  document.querySelectorAll('.day-tab').forEach(function(t){t.classList.remove('active')});
+  document.querySelectorAll('.day-tab')[d].classList.add('active');
+  showMap(d);
+  render(d);
+}
+
+document.querySelectorAll('.day-tab').forEach(function(tab) {
+  tab.addEventListener('click', function() { selectDay(parseInt(tab.dataset.day)); });
+});
+
+document.querySelectorAll('.mode-btn').forEach(function(btn) {
+  btn.addEventListener('click', function() {
+    currentMode = btn.dataset.mode;
+    document.querySelectorAll('.mode-btn').forEach(function(b){b.classList.remove('active')});
+    btn.classList.add('active');
+    showMap(currentDay);
+    render(currentDay);
+  });
+});
+
+selectDay(0);
+</script>
+</body>
+</html>
