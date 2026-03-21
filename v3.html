@@ -180,27 +180,27 @@ function getStops(day, mode) {
   // ===== DAY 3 =====
   if (day === 3) {
     var stops = [
-      {t:'08:00', n:'노보텔 체크아웃', d:'짐 들고 그랜드 센트럴로 이동', type:'hotel', p:'novotel'},
-      {t:'09:00', n:'그랜드센트럴 (짐맡기기)', d:'짐 보관 + 근처 지엔빙 아침', tip:'"可以寄存行李吗?(커이지춘싱리마?)" 짐 보관 요청', type:'hotel', dur:'30분', p:'grand_central'},
-      {t:'09:45', n:'점도덕 (브런치)', d:'홍미창펀 꼭 주문! 하가우, 차슈바오도 추천', tip:'世纪汇 2층. 지하철 2호선 세기대도역', type:'food', dur:'45분', p:'diandude'}
+      {t:'08:00', n:'노보텔 체크아웃', d:'짐 들고 그랜드 센트럴로 이동', tip:'택시 약 40분 or 지하철 2호선 약 50분', type:'hotel', p:'novotel'},
+      {t:'09:00', n:'그랜드센트럴 (짐맡기기)', d:'프론트에 짐 보관 요청 후 근처 지엔빙 아침!', tip:'"可以寄存行李吗?(커이지춘싱리마?)" 체크인 전이라도 짐 보관(行李寄存) 가능. 난징루 노점 지엔빙궈쯔 5~10위안', type:'hotel', dur:'30분', p:'grand_central'},
+      {t:'09:45', n:'점도덕 (브런치)', d:'홍미창펀(红米肠粉, 새우튀김 쌀피롤) 꼭 주문! 하가우, 차슈바오도 추천', tip:'世纪大道1192号 世纪汇 2층. 지하철 2호선 세기대도역 바로 연결. 인민광장에서 약 10분', type:'food', dur:'45분', p:'diandude'}
     ];
-    stops.push({t:'10:30', n:'루자쭈이 금융지구', d:'상하이타워, IFC 초고층 빌딩 감상', type:'attraction', dur:'30분', p:'lujiazui'});
-    stops.push({t:'11:00', n:'동방명주 전망대', d:'전망대 관람', tip:'티켓 온라인 사전구매 필수!', type:'attraction', dur:'1시간', p:'oriental'});
+    stops.push({t:'10:30', n:'루자쭈이 금융지구', d:'상하이타워(632m), IFC, 진마오타워 초고층 빌딩 감상', tip:'점도덕에서 도보 5분 (같은 구역)', type:'attraction', dur:'30분', p:'lujiazui'});
+    stops.push({t:'11:00', n:'동방명주 전망대', d:'상하이 상징 타워. 전망대에서 황푸강 양안 조망', tip:'티켓 온라인 사전구매 필수! 현장 줄 김. 도보 5분', type:'attraction', dur:'1시간', p:'oriental'});
 
     if (isFull) {
-      stops.push({t:'12:00', n:'푸동미술관 + 강변공원', d:'장 누벨 설계 미술관 + 황푸강변 산책', type:'attraction', dur:'45분', p:'pudong_art'});
+      stops.push({t:'12:00', n:'푸동미술관 + 강변공원', d:'장 누벨 설계 현대미술관(浦东美术馆). 황푸강변 공원 산책', tip:'동방명주에서 도보 5분', type:'attraction', dur:'45분', p:'pudong_art'});
     }
 
-    stops.push({t: isFull?'13:00':'12:30', n:'예원 관람', d:'400년 명나라 정원 + 예원상청 구경', tip:'페리로 강 건너기! 그 자체가 콘텐츠', type:'attraction', dur:'30분', p:'yuyuan'});
-    stops.push({t: isFull?'13:30':'13:00', n:'난샹만터우뎬 (점심)', d:'1900년 개업 본점 샤오롱바오!', tip:'예원상청 내. 대기 약 20분', type:'food', dur:'45분', p:'nanxiang'});
+    stops.push({t: isFull?'13:00':'12:30', n:'예원 관람', d:'400년 명나라 정원. 정교한 누각, 연못, 기암괴석 + 예원상청(豫园商城) 쇼핑거리', tip:'페리로 강 건너기(약 10분, 2위안)! 그 자체가 콘텐츠. 입장료 약 40위안', type:'attraction', dur:'30분', p:'yuyuan'});
+    stops.push({t: isFull?'13:30':'13:00', n:'난샹만터우뎬 (점심)', d:'1900년 개업 본점 샤오롱바오! 예원상청 내 위치', tip:'예원에서 도보 2분. 대기 약 20분. 줄 길 수 있으니 예원 관람 후 바로!', type:'food', dur:'45분', p:'nanxiang'});
 
     if (!isRain) {
-      stops.push({t: isFull?'14:30':'14:00', n:'와이탄 강변 산책', d:'황푸강변 유럽풍 건축물 감상', type:'attraction', dur:'45분', p:'bund'});
+      stops.push({t: isFull?'14:30':'14:00', n:'와이탄 강변 산책', d:'황푸강변 유럽풍 건축물 감상. 동방명주 맞은편 최고의 뷰', tip:'난샹에서 도보 약 15분. 헤이티(喜茶) 매장에서 음료 한 잔 추천!', type:'attraction', dur:'45분', p:'bund'});
       if (isFull) {
-        stops.push({t:'15:15', n:'락번드 예술구', d:'역사건축 갤러리, 카페 거리', type:'attraction', dur:'30분', p:'rockbund'});
+        stops.push({t:'15:15', n:'락번드 예술구', d:'洛克外滩源. 와이탄 인근 역사건축 예술구. 갤러리, 카페', tip:'와이탄에서 도보 5분 (바로 옆)', type:'attraction', dur:'30분', p:'rockbund'});
       }
-      stops.push({t: isFull?'16:00':'15:30', n:'매너커피 (동방명주 뷰)', d:'오후 순광 = 최고의 사진! 태양이 뒤에서 비춰 동방명주가 환하게', tip:'Manner Coffee 国客滨江店. 3천원대 커피로 인생샷', type:'food', dur:'45분', p:'manner'});
-      stops.push({t: isFull?'16:45':'16:15', n:'북와이탄 빈장공원', d:'오후 순광 = 동방명주 파노라마 인생샷 타임!', tip:'매너커피 바로 옆! 골든아워 사진', type:'attraction', dur:'30분', p:'north_bund'});
+      stops.push({t: isFull?'16:00':'15:30', n:'매너커피 (동방명주 뷰)', d:'오후 순광 = 최고의 사진! 태양이 뒤에서 비춰 동방명주가 환하게', tip:'Manner Coffee 国客滨江店(上海市虹口区国客中心码头). 통유리+야외테라스. 3천원대 커피로 인생샷! 택시 약 10분', type:'food', dur:'45분', p:'manner'});
+      stops.push({t: isFull?'16:45':'16:15', n:'북와이탄 빈장공원', d:'北外滩滨江公园. 오후 순광 = 동방명주+루자쭈이 파노라마 인생샷!', tip:'매너커피 바로 옆 도보 3분! 3월 일몰 약 18시. 골든아워 사진 찍기', type:'attraction', dur:'30분', p:'north_bund'});
     } else {
       stops.push({t: isFull?'14:30':'14:00', n:'와이탄 (짧게)', d:'우산 쓰고 간단히 or 폭우시 스킵', type:'attraction', dur:'20분', p:'bund'});
       if (isFull) {
@@ -210,12 +210,12 @@ function getStops(day, mode) {
     }
 
     if (!isRain) {
-      stops.push({t: isFull?'17:30':'17:00', n:'황푸강 유람선 (해질녘)', d:'해질녘 탑승이 최고! 야경 환상적', tip:'십류푸 선착장. 약 1시간 코스', type:'cruise', dur:'1시간', p:'cruise'});
+      stops.push({t: isFull?'17:30':'17:00', n:'황푸강 유람선 (해질녘)', d:'해질녘 탑승이 최고! 루자쭈이~와이탄 야경을 강 위에서', tip:'십류푸 선착장(十六铺码头)에서 출발. 약 1시간 코스. 북와이탄에서 택시 약 10분', type:'cruise', dur:'1시간', p:'cruise'});
     }
 
     if (isFull && !isRain) {
-      stops.push({t:'19:00', n:'홍쿠이지아 (롱샤)', d:'갈릭+마라 롱샤! 껍질 다 까진 새우가 접시 가득', tip:'金陵东路500号. 갈릭+마라 둘 다 주문!', type:'food', dur:'1.5시간', p:'hongkuijia'});
-      stops.push({t:'21:00', n:'很久以前 제일백화점', d:'쿨링패치+양꼬치+맥주 인스타 3종세트!', tip:'새벽 1시까지! 호텔 도보 5분', type:'food', dur:'1.5시간', p:'yangkochi_yb'});
+      stops.push({t:'19:00', n:'홍쿠이지아 (롱샤)', d:'갈릭+마라 롱샤! 껍질 다 까진 새우가 접시 가득', tip:'金陵东路500号 亚龙国际广场 2층. 호텔 근처! 蒜蓉(갈릭)+麻辣(마라) 둘 다 주문 추천. 유람선에서 택시 약 10분', type:'food', dur:'1.5시간', p:'hongkuijia'});
+      stops.push({t:'21:00', n:'很久以前 제일백화점', d:'쿨링패치+양꼬치+맥주 인스타 3종세트! 한국인 인기 1위 매장', tip:'南京东路830号 第一百货 B馆 6층. 새벽 1시까지 영업! 호텔에서 도보 5분. 대기 1~3시간 가능 - 일찍 갈수록 유리', type:'food', dur:'1.5시간', p:'yangkochi_yb'});
     } else if (isFull && isRain) {
       stops.push({t:'18:00', n:'홍쿠이지아 (롱샤)', d:'갈릭+마라 롱샤 저녁! 실내라 비와도 OK', type:'food', dur:'1.5시간', p:'hongkuijia'});
       stops.push({t:'20:00', n:'很久以前 제일백화점', d:'실내! 비 걱정 없음. 쿨링패치+양꼬치', tip:'새벽 1시까지 영업', type:'food', dur:'1.5시간', p:'yangkochi_yb'});
@@ -233,16 +233,16 @@ function getStops(day, mode) {
   // ===== DAY 4 =====
   if (day === 4) {
     var stops = [
-      {t:'08:30', n:'지엔빙 아침', d:'호텔 근처 노점에서 지엔빙궈쯔. 5~10위안', type:'food', p:'grand_central'}
+      {t:'08:30', n:'지엔빙 아침', d:'난징루/인민광장 주변 아침 노점에서 지엔빙궈쯔(煎饼果子). 5~10위안이면 든든한 아침!', type:'food', p:'grand_central'}
     ];
 
     if (!isRain) {
-      stops.push({t:'09:30', n:'천안천수', d:'토마스 헤더윅 설계! 건물 위 나무 400그루', tip:'쑤저우하 인근. 외관 사진 필수!', type:'attraction', dur:'45분', p:'tiananqs'});
+      stops.push({t:'09:30', n:'천안천수', d:'天安千树. 토마스 헤더윅 설계! 건물 위 나무 400그루', tip:'쑤저우하(苏州河) 인근. 외관 사진 + 내부 쇼핑몰 둘러보기. 호텔에서 택시 약 15분', type:'attraction', dur:'45분', p:'tiananqs'});
     }
 
     if (isFull && !isRain) {
-      stops.push({t:'10:30', n:'프라다 롱자이', d:'1918년 역사 저택을 프라다가 복원. 무료 전시', tip:'사전 예약 필요할 수 있음. 위챗 확인', type:'attraction', dur:'30분', p:'prada'});
-      stops.push({t:'11:00', n:'홍더구거 + 아더에러', d:'아더에러 플래그십 + Spot Table 커피', tip:'陕西北路457号. 프라다에서 도보 5분', type:'attraction', dur:'45분', p:'hongde'});
+      stops.push({t:'10:30', n:'프라다 롱자이', d:'Prada荣宅. 1918년 역사 저택을 프라다가 복원. 무료 전시 공간', tip:'陕西北路186号. 무료 입장이지만 사전 예약 필요할 수 있음. 위챗 확인. 천안천수에서 택시 약 15분', type:'attraction', dur:'30분', p:'prada'});
+      stops.push({t:'11:00', n:'홍더구거 + 아더에러', d:'아더에러 중국 첫 플래그십 + Spot Table에서 커피 한잔', tip:'陕西北路457号. 프라다 롱자이와 같은 거리! 도보 5분. 한국인 핫플 쇼핑 거리', type:'attraction', dur:'45분', p:'hongde'});
     } else if (isRain) {
       stops.push({t: isFull?'09:30':'09:30', n:'프라다 롱자이 (실내)', d:'비 오는 날 최고! 실내 전시 관람', tip:'무료 입장. 인테리어가 예술', type:'attraction', dur:'45분', p:'prada'});
       if (isFull) {
@@ -251,23 +251,23 @@ function getStops(day, mode) {
     }
 
     if (!isRain) {
-      stops.push({t: isFull?'11:45':'10:30', n:'우캉루 + 학맨션 인생샷', d:'인스타 국룰 포토스팟! TAGI, OBJECT LAB 소품샵. 차지 밀크티', tip:'맨션 정면이 북향이라 어떤 시간이든 빛 일정', type:'attraction', dur:'45분', p:'wukang'});
+      stops.push({t: isFull?'11:45':'10:30', n:'우캉루 + 학맨션 인생샷', d:'武康路/武康大楼. 인스타 국룰 포토스팟! 소품샵 투어 + 차지(霸王茶姬) 밀크티', tip:'TAGI(塔皮屋, 乌鲁木齐中路247-5 도보5분) 컬러풀 소품. OBJECT LAB 미니멀 도자기/문구. FENCHILIN 빈티지 소품. 홍더구거에서 택시 약 10분', type:'attraction', dur:'45분', p:'wukang'});
     }
 
-    stops.push({t: (isFull && !isRain)?'12:45':(isRain?'11:15':'11:30'), n: isFull?'런허관 (미쉐린 점심)':'런허관 or 해저라오', d: isFull?'미쉐린 1스타 본방요리! 금패홍샤오로우, 송슈구이위 필수':'런허관(미쉐린 본방요리) or 해저라오(훠궈+네일 서비스) 택1', tip: isFull?'肇嘉浜路店. 치파오 가수 라이브!':'해저라오: 대기 중 무료 네일, 팝콘, 과일!', type:'food', dur:'1시간15분', p:'renheguan'});
+    stops.push({t: (isFull && !isRain)?'12:45':(isRain?'11:15':'11:30'), n: isFull?'런허관 (미쉐린 점심)':'런허관 or 해저라오', d: isFull?'人和馆. 미쉐린 1스타 본방요리! 금패홍샤오로우(红烧肉), 송슈구이위(松鼠桂鱼) 필수':'런허관(미쉐린 본방요리) or 해저라오(훠궈+네일 서비스) 택1', tip: isFull?'肇嘉浜路店. 우캉루에서 도보 10분. 치파오 가수 라이브 공연!':'해저라오: 대기 중 무료 네일, 팝콘, 과일! 토요일 점심 대기 30분~1시간', type:'food', dur:'1시간15분', p:'renheguan'});
 
     if (isFull) {
       if (!isRain) {
-        stops.push({t:'14:15', n:'티엔즈팡', d:'골목 쇼핑! 아트숍, 카페, 기념품, 수공예품', tip:'泰康路210弄. 지하철 9호선', type:'attraction', dur:'45분', p:'tianzifang'});
+        stops.push({t:'14:15', n:'티엔즈팡', d:'田子坊. 골목 속 아트숍, 카페, 기념품, 수공예품 쇼핑', tip:'泰康路210弄. 지하철 9호선 다푸차오역 1번출구. 런허관에서 택시 약 5분', type:'attraction', dur:'45분', p:'tianzifang'});
       }
-      stops.push({t: isRain?'12:45':'15:15', n:'대한민국 임시정부', d:'한국인 필수 방문. 무료 입장', tip:'马当路306弄4号. 1926~1932 청사', type:'attraction', dur:'30분', p:'provisional'});
+      stops.push({t: isRain?'12:45':'15:15', n:'대한민국 임시정부', d:'大韩民国临时政府旧址. 한국인이라면 꼭 가봐야 할 역사 현장', tip:'马当路306弄4号. 입장료 무료. 1926~1932 임시정부 청사. 신천지 바로 옆. 티엔즈팡에서 택시 약 5분', type:'attraction', dur:'30분', p:'provisional'});
     } else {
-      stops.push({t: isRain?'12:45':'13:00', n:'대한민국 임시정부', d:'한국인 필수 방문. 무료 입장', type:'attraction', dur:'30분', p:'provisional'});
+      stops.push({t: isRain?'12:45':'13:00', n:'대한민국 임시정부', d:'大韩民国临时政府旧址. 한국인 필수 방문. 무료 입장', tip:'马当路306弄4号. 신천지 바로 옆', type:'attraction', dur:'30분', p:'provisional'});
     }
 
-    stops.push({t: (isFull&&!isRain)?'16:00':(isFull&&isRain)?'13:30':isRain?'13:30':'13:45', n:'더 루프', d:'장 누벨 설계 빨간색 건축물! 스카이가든', tip:'신천지 내. 빨간 벽돌 외관 포토스팟!', type:'attraction', dur:'20분', p:'the_roof'});
+    stops.push({t: (isFull&&!isRain)?'16:00':(isFull&&isRain)?'13:30':isRain?'13:30':'13:45', n:'더 루프', d:'The Roof. 장 누벨 설계 빨간색 건축물! 스카이가든+서점', tip:'신천지 내 위치. 빨간 벽돌 외관이 포토스팟! 옥상 정원에서 사진 필수. 임시정부에서 도보 5분', type:'attraction', dur:'20분', p:'the_roof'});
 
-    stops.push({t: (isFull&&!isRain)?'16:30':(isFull&&isRain)?'14:00':isRain?'14:00':'14:15', n:'신천지 산책', d:'스쿠먼 거리. 카페, 쇼핑', tip:'헤이티(喜茶) or Polux에서 한잔!', type:'attraction', dur:'30분', p:'xintiandi'});
+    stops.push({t: (isFull&&!isRain)?'16:30':(isFull&&isRain)?'14:00':isRain?'14:00':'14:15', n:'신천지 산책', d:'新天地. 스쿠먼 건축 골목. 카페, 바, 레스토랑 밀집', tip:'헤이티(喜茶) or Polux에서 한잔! 더루프에서 도보 3분', type:'attraction', dur:'30분', p:'xintiandi'});
 
     if (isFull) {
       stops.push({t: isRain?'14:30':'17:00', n:'Polux 카페', d:'미쉐린 빕구르망 프렌치 비스트로', tip:'太仓路181弄5号. Paul Pairet 셰프. 커피+디저트', type:'food', dur:'30분', p:'polux'});
@@ -278,12 +278,12 @@ function getStops(day, mode) {
     }
 
     if (!isRain) {
-      stops.push({t: isFull?'18:15':'17:00', n:'예원상청 야경', d:'전통 건물 조명 환상적! DAY3 낮과 완전 다른 분위기', tip:'일몰 ~18:10. 직후 도착이 조명 타이밍! 구곡교 야경', type:'attraction', dur:'30분', p:'yuyuan'});
+      stops.push({t: isFull?'18:15':'17:00', n:'예원상청 야경', d:'豫园商城 야경! 전통 건물에 조명이 켜지면 환상적. DAY3 낮과 완전 다른 분위기', tip:'3월 일몰 ~18:10. 직후 도착이 조명 타이밍! 구곡교(九曲桥) 야경이 특히 예쁨. 신천지에서 택시 약 10분', type:'attraction', dur:'30분', p:'yuyuan'});
     }
 
-    stops.push({t: (isFull&&!isRain)?'19:00':(isFull&&isRain)?'16:00':isRain?'16:00':'18:00', n:'경운화 (베이징덕)', d:'마지막 밤 저녁! 가성비 베이징덕', tip:'제일백화점 내. 호텔 도보 거리! 반마리 주문 가능', type:'food', dur:'1시간', p:'qingyunhua'});
+    stops.push({t: (isFull&&!isRain)?'19:00':(isFull&&isRain)?'16:00':isRain?'16:00':'18:00', n:'경운화 (베이징덕)', d:'庆云华. 마지막 밤 저녁! 가성비 베이징덕', tip:'제일백화점(第一百货) 내. 호텔 도보 거리! 바삭한 껍질+촉촉한 오리고기. 반마리(半只) 주문 가능. 예원에서 택시 약 10분', type:'food', dur:'1시간', p:'qingyunhua'});
 
-    stops.push({t: (isFull&&!isRain)?'20:00':(isFull&&isRain)?'17:30':isRain?'17:30':'19:30', n:'호텔 + 마지막 밤', d:'난징루 야경 산책 + 배달 야식!', tip:'마라탕 or 자자탕바오 배달로 마지막 야식', type:'hotel', p:'grand_central'});
+    stops.push({t: (isFull&&!isRain)?'20:00':(isFull&&isRain)?'17:30':isRain?'17:30':'19:30', n:'호텔 + 마지막 밤', d:'난징루(南京路) 야경 산책하며 마지막 밤 마무리!', tip:'자자탕바오(佳家汤包, 게살탕바오) or 마라탕(麻辣烫) 배달로 마지막 야식. 어러머/메이투안 앱 활용!', type:'hotel', p:'grand_central'});
 
     return stops;
   }
