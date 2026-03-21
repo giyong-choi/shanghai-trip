@@ -75,14 +75,14 @@
 </div>
 
 <div class="mode-selector">
-  <button class="mode-btn active" data-mode="full-sun"><span class="mode-icon">&#9728;&#65039;</span>Full+Sunny</button>
-  <button class="mode-btn" data-mode="full-rain"><span class="mode-icon">&#127782;&#65039;</span>Full+Rain</button>
-  <button class="mode-btn" data-mode="lite-sun"><span class="mode-icon">&#9968;</span>Lite+Sunny</button>
-  <button class="mode-btn" data-mode="lite-rain"><span class="mode-icon">&#9681;</span>Lite+Rain</button>
+  <button class="mode-btn active" data-mode="full-sun"><span class="mode-icon">&#9728;&#65039;</span>풀코스+맑음</button>
+  <button class="mode-btn" data-mode="full-rain"><span class="mode-icon">&#127782;&#65039;</span>풀코스+비</button>
+  <button class="mode-btn" data-mode="lite-sun"><span class="mode-icon">&#9968;</span>라이트+맑음</button>
+  <button class="mode-btn" data-mode="lite-rain"><span class="mode-icon">&#9681;</span>라이트+비</button>
 </div>
 
 <div class="day-tabs" id="dayTabs">
-  <button class="day-tab active" data-day="0">Prep<span class="tab-date">CHECK</span></button>
+  <button class="day-tab active" data-day="0">준비<span class="tab-date">CHECK</span></button>
   <button class="day-tab" data-day="1">DAY 1<span class="tab-date">3/25</span></button>
   <button class="day-tab" data-day="2">DAY 2<span class="tab-date">3/26</span></button>
   <button class="day-tab" data-day="3">DAY 3<span class="tab-date">3/27</span></button>
@@ -137,12 +137,12 @@ var P = {
 
 // ===== DAYS DATA BY MODE =====
 var DAYS = {
-  0: { title: 'Trip Prep', subtitle: 'Check Before You Go', all: true },
-  1: { title: 'DAY 1 - Arrive', subtitle: '3/25 (Wed) | HongQiao -> Novotel', all: true },
-  2: { title: 'DAY 2 - Disney', subtitle: '3/26 (Thu) | Disney + YangKoChi', all: true },
-  3: { title: 'DAY 3 - PuDong + Bund', subtitle: '3/27 (Fri)' },
-  4: { title: 'DAY 4 - French + XinTianDi', subtitle: '3/28 (Sat)' },
-  5: { title: 'DAY 5 - Go Home', subtitle: '3/29 (Sun) | PVG 10:00', all: true }
+  0: { title: '여행 준비', subtitle: '출발 전 체크리스트', all: true },
+  1: { title: 'DAY 1 - 상하이 도착', subtitle: '3/25 (수) | 홍차오 공항 -> 노보텔', all: true },
+  2: { title: 'DAY 2 - 디즈니랜드', subtitle: '3/26 (목) | 디즈니 + 양꼬치', all: true },
+  3: { title: 'DAY 3 - 푸동 + 와이탄', subtitle: '3/27 (금)' },
+  4: { title: 'DAY 4 - 프렌치 조계지 + 신천지', subtitle: '3/28 (토)' },
+  5: { title: 'DAY 5 - 귀국', subtitle: '3/29 (일) | 푸동공항 10:00', all: true }
 };
 
 function getStops(day, mode) {
@@ -150,83 +150,81 @@ function getStops(day, mode) {
   var isRain = mode.indexOf('rain') >= 0;
 
   if (day === 0) return [
-    {t:'', n:'VPN App', d:'Google/Insta/KakaoTalk blocked in China. Install VPN before departure!', type:'transport'},
-    {t:'', n:'WeChat Pay / AliPay', d:'Many shops are cashless. Set up mobile payment in advance', type:'transport'},
-    {t:'', n:'DiDi App (taxi)', d:'Install DiDi (Chinese Uber). Link payment method', type:'transport'},
-    {t:'', n:'MeiTuan / Ele.me', d:'Delivery apps. Essential for late night food orders', type:'food'},
-    {t:'', n:'eSIM / SIM Card', d:'Buy China eSIM before departure. Data essential for maps & apps', type:'transport'},
-    {t:'', n:'Disney App', d:'Shanghai Disney Resort app for wait times & FastPass', type:'attraction'},
-    {t:'', n:'Umbrella + Layers', d:'March Shanghai: 8-16C, rain possible. Bring umbrella & layers', type:'transport'},
-    {t:'', n:'Portable Charger', d:'Full day out = phone dies. 10000mAh+ recommended', type:'transport'}
+    {t:'', n:'VPN 앱 설치', d:'중국에서 구글/인스타/카톡 차단됨! 출발 전 VPN 필수 설치', type:'transport'},
+    {t:'', n:'위챗페이 / 알리페이', d:'현금/카드 안 받는 곳 많음. 모바일 결제 사전 설정 필수', type:'transport'},
+    {t:'', n:'디디추싱 앱 (택시)', d:'중국판 우버. 결제수단 연동해두기', type:'transport'},
+    {t:'', n:'메이투안 / 어러머', d:'배달 앱. 야식 주문 필수!', type:'food'},
+    {t:'', n:'eSIM / 유심', d:'출발 전 중국 eSIM 구매. 지도, 앱 사용에 데이터 필수', type:'transport'},
+    {t:'', n:'디즈니 앱', d:'Shanghai Disney Resort 앱. 대기시간 실시간 확인 + 패스트패스', type:'attraction'},
+    {t:'', n:'우산 + 겉옷', d:'3월 상하이: 8~16도, 비 올 수 있음. 우산과 레이어드 필수', type:'transport'},
+    {t:'', n:'보조배터리', d:'종일 외출 = 폰 방전. 10000mAh 이상 추천', type:'transport'}
   ];
 
   if (day === 1) return [
-    {t:'22:10', n:'HongQiao Airport', d:'Arrive. Immigration ~30-45min', tip:'Convenience stores near hotel, skip airport shopping', type:'transport', p:'hongqiao'},
-    {t:'23:30~', n:'Novotel Check-in', d:'Convenience store (across street) + delivery food', tip:'WuSu beer + Lays China Edition + DaBaiTu candy. Order delivery in taxi!', type:'hotel', p:'novotel'}
+    {t:'22:10', n:'홍차오 공항 도착', d:'입국심사+수하물 약 30~45분. 바로 택시!', tip:'편의점은 호텔 건너편에 있으니 공항에서 안 사도 OK', type:'transport', p:'hongqiao'},
+    {t:'23:30~', n:'노보텔 체크인 + 야식', d:'건너편 편의점 장보기 + 배달 야식!', tip:'우쑤맥주(乌苏) + 레이즈 중국한정맛 + 다바이투(大白兔). 택시에서 배달 미리 주문!', type:'hotel', p:'novotel'}
   ];
 
   if (day === 2) return [
-    {t:'07:00', n:'Hotel Breakfast', d:'Eat well, big day ahead', type:'hotel', p:'novotel'},
-    {t:'08:00', n:'Disney Opening Rush', d:'Arrive 07:45. TRON first! Then Caribbean, Soaring', tip:'Use Disney app for wait times. Turkey leg = Insta must', type:'attraction', dur:'8.5h', p:'disney'},
-    {t:'17:00', n:'HenJiuYiQian (ChuanSha)', d:'Lamb skewers + WuSu beer after Disney!', tip:'BaiLian ChuanSha Mall 4F. Taxi 10-15min from Disney', type:'food', dur:'1.5h', p:'yangkochi_cs'},
-    {t:'19:00', n:'Hotel + Delivery', d:'Rest + ShengJianBao delivery for late snack', type:'hotel', p:'novotel'}
+    {t:'07:00', n:'호텔 조식 + 출발', d:'든든하게 먹고 디즈니 오픈런 준비!', type:'hotel', p:'novotel'},
+    {t:'08:00', n:'디즈니 오픈런!', d:'07:45 도착 목표. 트론 직행! 캐리비안, 소어링 필수', tip:'디즈니 앱으로 대기시간 확인. 성 앞 인생샷, 터키레그 먹방!', type:'attraction', dur:'8.5시간', p:'disney'},
+    {t:'17:00', n:'很久以前 촨사점', d:'양꼬치 + 우쑤맥주로 하루 마무리!', tip:'百联川沙购物中心 4층. 디즈니에서 택시 10~15분', type:'food', dur:'1.5시간', p:'yangkochi_cs'},
+    {t:'19:00', n:'호텔 복귀 + 배달 야식', d:'짐 정리 + 생젠바오(小杨生煎) 배달!', type:'hotel', p:'novotel'}
   ];
 
   if (day === 5) return [
-    {t:'06:30', n:'Check out', d:'Head to PVG airport', tip:'Target 07:30 arrival. Metro Line 2 ~1hr or taxi ~50min', type:'transport', p:'grand_central'},
-    {t:'07:30', n:'PVG Airport', d:'Immigration + Duty Free', type:'transport', p:'pudong_airport'}
+    {t:'06:30', n:'체크아웃', d:'푸동공항으로 이동', tip:'07:30 공항 도착 목표. 지하철 2호선 약 1시간 or 택시 약 50분', type:'transport', p:'grand_central'},
+    {t:'07:30', n:'푸동 국제공항', d:'출국수속 + 면세점 쇼핑', type:'transport', p:'pudong_airport'}
   ];
 
   // ===== DAY 3 =====
   if (day === 3) {
     var stops = [
-      {t:'08:00', n:'Checkout Novotel', d:'Luggage to Grand Central', type:'hotel', p:'novotel'},
-      {t:'09:00', n:'Grand Central (luggage)', d:'Drop bags + JianBing breakfast nearby', tip:'"Ke yi ji cun xing li ma?" for luggage storage', type:'hotel', dur:'30m', p:'grand_central'},
-      {t:'09:45', n:'DianDuDe (Brunch)', d:'HongMi ChangFen must order! HaGau, ChaShuBao', tip:'Century Link Mall 2F. Metro Line 2', type:'food', dur:'45m', p:'diandude'}
+      {t:'08:00', n:'노보텔 체크아웃', d:'짐 들고 그랜드 센트럴로 이동', type:'hotel', p:'novotel'},
+      {t:'09:00', n:'그랜드센트럴 (짐맡기기)', d:'짐 보관 + 근처 지엔빙 아침', tip:'"可以寄存行李吗?(커이지춘싱리마?)" 짐 보관 요청', type:'hotel', dur:'30분', p:'grand_central'},
+      {t:'09:45', n:'점도덕 (브런치)', d:'홍미창펀 꼭 주문! 하가우, 차슈바오도 추천', tip:'世纪汇 2층. 지하철 2호선 세기대도역', type:'food', dur:'45분', p:'diandude'}
     ];
-    stops.push({t:'10:30', n:'LuJiaZui District', d:'Shanghai Tower, IFC skyscrapers', type:'attraction', dur:'30m', p:'lujiazui'});
-    stops.push({t:'11:00', n:'Oriental Pearl Tower', d:'Observatory deck', tip:'Buy tickets online!', type:'attraction', dur:'1h', p:'oriental'});
+    stops.push({t:'10:30', n:'루자쭈이 금융지구', d:'상하이타워, IFC 초고층 빌딩 감상', type:'attraction', dur:'30분', p:'lujiazui'});
+    stops.push({t:'11:00', n:'동방명주 전망대', d:'전망대 관람', tip:'티켓 온라인 사전구매 필수!', type:'attraction', dur:'1시간', p:'oriental'});
 
     if (isFull) {
-      stops.push({t:'12:00', n:'Pudong Art Museum', d:'Jean Nouvel design + riverside park walk', type:'attraction', dur:'45m', p:'pudong_art'});
+      stops.push({t:'12:00', n:'푸동미술관 + 강변공원', d:'장 누벨 설계 미술관 + 황푸강변 산책', type:'attraction', dur:'45분', p:'pudong_art'});
     }
 
-    stops.push({t: isFull?'13:00':'12:30', n:'Yu Garden', d:'400yr Ming Dynasty garden + YuYuan Market', tip:'Ferry across river = content itself!', type:'attraction', dur:'30m', p:'yuyuan'});
-    stops.push({t: isFull?'13:30':'13:00', n:'NanXiang XiaoLongBao', d:'Lunch! 1900 original shop', tip:'Inside YuYuan Market. Queue ~20min', type:'food', dur:'45m', p:'nanxiang'});
+    stops.push({t: isFull?'13:00':'12:30', n:'예원 관람', d:'400년 명나라 정원 + 예원상청 구경', tip:'페리로 강 건너기! 그 자체가 콘텐츠', type:'attraction', dur:'30분', p:'yuyuan'});
+    stops.push({t: isFull?'13:30':'13:00', n:'난샹만터우뎬 (점심)', d:'1900년 개업 본점 샤오롱바오!', tip:'예원상청 내. 대기 약 20분', type:'food', dur:'45분', p:'nanxiang'});
 
     if (!isRain) {
-      stops.push({t: isFull?'14:30':'14:00', n:'The Bund Walk', d:'Huangpu riverside, European architecture', type:'attraction', dur:'45m', p:'bund'});
+      stops.push({t: isFull?'14:30':'14:00', n:'와이탄 강변 산책', d:'황푸강변 유럽풍 건축물 감상', type:'attraction', dur:'45분', p:'bund'});
       if (isFull) {
-        stops.push({t:'15:15', n:'Rockbund Art District', d:'Historic buildings, galleries', type:'attraction', dur:'30m', p:'rockbund'});
+        stops.push({t:'15:15', n:'락번드 예술구', d:'역사건축 갤러리, 카페 거리', type:'attraction', dur:'30분', p:'rockbund'});
       }
-      // Afternoon = best light for North Bund photos
-      stops.push({t: isFull?'16:00':'15:30', n:'Manner Coffee (DongFangMingZhu View)', d:'AFTERNOON LIGHT = best photos! Sun behind you, Pearl Tower lit up', tip:'Manner Coffee GuoKe BinJiang. 3000won coffee, million dollar view', type:'food', dur:'45m', p:'manner'});
-      stops.push({t: isFull?'16:45':'16:15', n:'North Bund Park', d:'AFTERNOON = perfect light for panorama! Sun illuminates Pearl Tower', tip:'Right next to Manner Coffee. Golden hour photos!', type:'attraction', dur:'30m', p:'north_bund'});
+      stops.push({t: isFull?'16:00':'15:30', n:'매너커피 (동방명주 뷰)', d:'오후 순광 = 최고의 사진! 태양이 뒤에서 비춰 동방명주가 환하게', tip:'Manner Coffee 国客滨江店. 3천원대 커피로 인생샷', type:'food', dur:'45분', p:'manner'});
+      stops.push({t: isFull?'16:45':'16:15', n:'북와이탄 빈장공원', d:'오후 순광 = 동방명주 파노라마 인생샷 타임!', tip:'매너커피 바로 옆! 골든아워 사진', type:'attraction', dur:'30분', p:'north_bund'});
     } else {
-      // Rain alternatives
-      stops.push({t: isFull?'14:30':'14:00', n:'The Bund (Brief)', d:'Quick walk with umbrella or skip if heavy rain', type:'attraction', dur:'20m', p:'bund'});
+      stops.push({t: isFull?'14:30':'14:00', n:'와이탄 (짧게)', d:'우산 쓰고 간단히 or 폭우시 스킵', type:'attraction', dur:'20분', p:'bund'});
       if (isFull) {
-        stops.push({t:'15:00', n:'BaiLian ZX (Indoor Shopping)', d:'Anime/subculture mall near NanJing Rd. Rain-proof!', tip:'NanJingDongLu station. 6 floors of fun', type:'attraction', dur:'1h', p:'bailianZX'});
+        stops.push({t:'15:00', n:'바이롄ZX (실내 쇼핑)', d:'난징루 옆 서브컬처/애니 쇼핑몰. 비와도 OK!', tip:'난징동루역. 6층 규모', type:'attraction', dur:'1시간', p:'bailianZX'});
       }
-      stops.push({t: isFull?'16:00':'15:30', n:'Hotel Rest', d:'Check in, rest, recharge for evening', type:'hotel', dur:'1h', p:'grand_central'});
+      stops.push({t: isFull?'16:00':'15:30', n:'호텔 휴식', d:'체크인 후 휴식. 저녁을 위해 충전!', type:'hotel', dur:'1시간', p:'grand_central'});
     }
 
     if (!isRain) {
-      stops.push({t: isFull?'17:30':'17:00', n:'River Cruise (Sunset)', d:'Board at sunset for best views!', tip:'ShiLiuPu Pier. ~1hr cruise. Insta reels must!', type:'cruise', dur:'1h', p:'cruise'});
+      stops.push({t: isFull?'17:30':'17:00', n:'황푸강 유람선 (해질녘)', d:'해질녘 탑승이 최고! 야경 환상적', tip:'십류푸 선착장. 약 1시간 코스', type:'cruise', dur:'1시간', p:'cruise'});
     }
 
     if (isFull && !isRain) {
-      stops.push({t:'19:00', n:'HongKuiJia (Crawfish)', d:'Garlic + MaLa crawfish! Shells pre-peeled', tip:'JinLingDongLu 500. Order both garlic & mala', type:'food', dur:'1.5h', p:'hongkuijia'});
-      stops.push({t:'21:00', n:'HenJiuYiQian (No.1 Dept)', d:'THE Insta spot. Cooling patch + skewers + beer', tip:'Open till 1AM! Walk from hotel', type:'food', dur:'1.5h', p:'yangkochi_yb'});
+      stops.push({t:'19:00', n:'홍쿠이지아 (롱샤)', d:'갈릭+마라 롱샤! 껍질 다 까진 새우가 접시 가득', tip:'金陵东路500号. 갈릭+마라 둘 다 주문!', type:'food', dur:'1.5시간', p:'hongkuijia'});
+      stops.push({t:'21:00', n:'很久以前 제일백화점', d:'쿨링패치+양꼬치+맥주 인스타 3종세트!', tip:'새벽 1시까지! 호텔 도보 5분', type:'food', dur:'1.5시간', p:'yangkochi_yb'});
     } else if (isFull && isRain) {
-      stops.push({t:'18:00', n:'HongKuiJia (Crawfish)', d:'Garlic + MaLa crawfish dinner!', type:'food', dur:'1.5h', p:'hongkuijia'});
-      stops.push({t:'20:00', n:'HenJiuYiQian (No.1 Dept)', d:'Indoor! Rain no problem. Cooling patch + skewers', tip:'Open till 1AM', type:'food', dur:'1.5h', p:'yangkochi_yb'});
+      stops.push({t:'18:00', n:'홍쿠이지아 (롱샤)', d:'갈릭+마라 롱샤 저녁! 실내라 비와도 OK', type:'food', dur:'1.5시간', p:'hongkuijia'});
+      stops.push({t:'20:00', n:'很久以前 제일백화점', d:'실내! 비 걱정 없음. 쿨링패치+양꼬치', tip:'새벽 1시까지 영업', type:'food', dur:'1.5시간', p:'yangkochi_yb'});
     } else {
-      stops.push({t: isRain?'17:30':'18:30', n:'HenJiuYiQian (No.1 Dept)', d:'Lamb skewers dinner! Walk from hotel', tip:'Open till 1AM. Cooling patch + beer = Insta set', type:'food', dur:'1.5h', p:'yangkochi_yb'});
+      stops.push({t: isRain?'17:30':'18:30', n:'很久以前 제일백화점', d:'양꼬치 저녁! 호텔에서 도보', tip:'새벽 1시까지. 쿨링패치+맥주 = 인스타 세트', type:'food', dur:'1.5시간', p:'yangkochi_yb'});
     }
 
     if (!isFull) {
-      stops.push({t:'20:30', n:'Hotel Rest', d:'Early rest. Delivery snack if hungry', tip:'Order MaLaTang or JiaJia TangBao delivery', type:'hotel', p:'grand_central'});
+      stops.push({t:'20:30', n:'호텔 휴식', d:'일찍 쉬기. 배달 야식 추천!', tip:'마라탕 or 자자탕바오 배달 주문', type:'hotel', p:'grand_central'});
     }
 
     return stops;
@@ -235,57 +233,57 @@ function getStops(day, mode) {
   // ===== DAY 4 =====
   if (day === 4) {
     var stops = [
-      {t:'08:30', n:'JianBing Breakfast', d:'Street vendor near hotel. 5-10 yuan', type:'food', p:'grand_central'}
+      {t:'08:30', n:'지엔빙 아침', d:'호텔 근처 노점에서 지엔빙궈쯔. 5~10위안', type:'food', p:'grand_central'}
     ];
 
     if (!isRain) {
-      stops.push({t:'09:30', n:'1000 Trees', d:'Heatherwick architecture. 400 trees on building!', tip:'SuZhou River area. Exterior photos!', type:'attraction', dur:'45m', p:'tiananqs'});
+      stops.push({t:'09:30', n:'천안천수', d:'토마스 헤더윅 설계! 건물 위 나무 400그루', tip:'쑤저우하 인근. 외관 사진 필수!', type:'attraction', dur:'45분', p:'tiananqs'});
     }
 
     if (isFull && !isRain) {
-      stops.push({t:'10:30', n:'Prada RongZhai', d:'1918 mansion restored by Prada', tip:'Free but may need reservation via WeChat', type:'attraction', dur:'30m', p:'prada'});
-      stops.push({t:'11:00', n:'HongDe + Ader Error', d:'Ader Error flagship + Spot Table coffee', tip:'ShanXiBeiLu 457. Walk 5min from Prada', type:'attraction', dur:'45m', p:'hongde'});
+      stops.push({t:'10:30', n:'프라다 롱자이', d:'1918년 역사 저택을 프라다가 복원. 무료 전시', tip:'사전 예약 필요할 수 있음. 위챗 확인', type:'attraction', dur:'30분', p:'prada'});
+      stops.push({t:'11:00', n:'홍더구거 + 아더에러', d:'아더에러 플래그십 + Spot Table 커피', tip:'陕西北路457号. 프라다에서 도보 5분', type:'attraction', dur:'45분', p:'hongde'});
     } else if (isRain) {
-      stops.push({t: isFull?'09:30':'09:30', n:'Prada RongZhai (Indoor)', d:'Perfect rainy day spot! Indoor exhibition', tip:'Free entry. Beautiful interior', type:'attraction', dur:'45m', p:'prada'});
+      stops.push({t: isFull?'09:30':'09:30', n:'프라다 롱자이 (실내)', d:'비 오는 날 최고! 실내 전시 관람', tip:'무료 입장. 인테리어가 예술', type:'attraction', dur:'45분', p:'prada'});
       if (isFull) {
-        stops.push({t:'10:15', n:'HongDe + Ader Error (Indoor)', d:'Indoor shopping! Ader Error + Spot Table coffee', type:'attraction', dur:'45m', p:'hongde'});
+        stops.push({t:'10:15', n:'홍더구거 + 아더에러 (실내)', d:'실내 쇼핑! 아더에러 + Spot Table 커피', type:'attraction', dur:'45분', p:'hongde'});
       }
     }
 
     if (!isRain) {
-      stops.push({t: isFull?'11:45':'10:30', n:'WuKang Road + Mansion', d:'THE Insta photo spot! TAGI, OBJECT LAB shops. CHAGEE milk tea', tip:'Noon light OK for photos. Mansion facade faces north = consistent light', type:'attraction', dur:'45m', p:'wukang'});
+      stops.push({t: isFull?'11:45':'10:30', n:'우캉루 + 학맨션 인생샷', d:'인스타 국룰 포토스팟! TAGI, OBJECT LAB 소품샵. 차지 밀크티', tip:'맨션 정면이 북향이라 어떤 시간이든 빛 일정', type:'attraction', dur:'45분', p:'wukang'});
     }
 
-    stops.push({t: (isFull && !isRain)?'12:45':(isRain?'11:15':'11:30'), n: isFull?'RenHeGuan (Michelin Lunch)':'RenHeGuan or HaiDiLao', d: isFull?'Michelin 1-star Shanghai cuisine! HongShaoRou, SongShuGuiYu must order':'Choose: RenHeGuan (Michelin local) or HaiDiLao (hotpot + nail service)', tip: isFull?'ZhaoJiaBangLu branch. QiPao singer live!':'HaiDiLao: free nail art + snacks while waiting!', type:'food', dur:'1h15m', p:'renheguan'});
+    stops.push({t: (isFull && !isRain)?'12:45':(isRain?'11:15':'11:30'), n: isFull?'런허관 (미쉐린 점심)':'런허관 or 해저라오', d: isFull?'미쉐린 1스타 본방요리! 금패홍샤오로우, 송슈구이위 필수':'런허관(미쉐린 본방요리) or 해저라오(훠궈+네일 서비스) 택1', tip: isFull?'肇嘉浜路店. 치파오 가수 라이브!':'해저라오: 대기 중 무료 네일, 팝콘, 과일!', type:'food', dur:'1시간15분', p:'renheguan'});
 
     if (isFull) {
       if (!isRain) {
-        stops.push({t:'14:15', n:'TianZiFang', d:'Alley shopping! Art, crafts, souvenirs', tip:'TaiKangLu 210. Metro Line 9', type:'attraction', dur:'45m', p:'tianzifang'});
+        stops.push({t:'14:15', n:'티엔즈팡', d:'골목 쇼핑! 아트숍, 카페, 기념품, 수공예품', tip:'泰康路210弄. 지하철 9호선', type:'attraction', dur:'45분', p:'tianzifang'});
       }
-      stops.push({t: isRain?'12:45':'15:15', n:'KR Provisional Government', d:'Must visit for Koreans. Free entry', tip:'MaDangLu 306. 1926-1932 site', type:'attraction', dur:'30m', p:'provisional'});
+      stops.push({t: isRain?'12:45':'15:15', n:'대한민국 임시정부', d:'한국인 필수 방문. 무료 입장', tip:'马当路306弄4号. 1926~1932 청사', type:'attraction', dur:'30분', p:'provisional'});
     } else {
-      stops.push({t: isRain?'12:45':'13:00', n:'KR Provisional Government', d:'Must visit. Free entry', type:'attraction', dur:'30m', p:'provisional'});
+      stops.push({t: isRain?'12:45':'13:00', n:'대한민국 임시정부', d:'한국인 필수 방문. 무료 입장', type:'attraction', dur:'30분', p:'provisional'});
     }
 
-    stops.push({t: (isFull&&!isRain)?'16:00':(isFull&&isRain)?'13:30':isRain?'13:30':'13:45', n:'The Roof', d:'Jean Nouvel red architecture. Sky garden!', tip:'Inside XinTianDi. Red brick = photo spot!', type:'attraction', dur:'20m', p:'the_roof'});
+    stops.push({t: (isFull&&!isRain)?'16:00':(isFull&&isRain)?'13:30':isRain?'13:30':'13:45', n:'더 루프', d:'장 누벨 설계 빨간색 건축물! 스카이가든', tip:'신천지 내. 빨간 벽돌 외관 포토스팟!', type:'attraction', dur:'20분', p:'the_roof'});
 
-    stops.push({t: (isFull&&!isRain)?'16:30':(isFull&&isRain)?'14:00':isRain?'14:00':'14:15', n:'XinTianDi Walk', d:'ShiKuMen streets. Cafes, shops', tip:'HEYTEA or Polux for a drink!', type:'attraction', dur:'30m', p:'xintiandi'});
+    stops.push({t: (isFull&&!isRain)?'16:30':(isFull&&isRain)?'14:00':isRain?'14:00':'14:15', n:'신천지 산책', d:'스쿠먼 거리. 카페, 쇼핑', tip:'헤이티(喜茶) or Polux에서 한잔!', type:'attraction', dur:'30분', p:'xintiandi'});
 
     if (isFull) {
-      stops.push({t: isRain?'14:30':'17:00', n:'Polux Cafe', d:'Michelin Bib Gourmand French bistro', tip:'TaiCangLu 181. Paul Pairet chef. Coffee+dessert', type:'food', dur:'30m', p:'polux'});
+      stops.push({t: isRain?'14:30':'17:00', n:'Polux 카페', d:'미쉐린 빕구르망 프렌치 비스트로', tip:'太仓路181弄5号. Paul Pairet 셰프. 커피+디저트', type:'food', dur:'30분', p:'polux'});
     }
 
     if (!isFull) {
-      stops.push({t: isRain?'14:30':'14:45', n:'Hotel Rest', d:'Recharge at hotel. 1hr break', type:'hotel', dur:'1h', p:'grand_central'});
+      stops.push({t: isRain?'14:30':'14:45', n:'호텔 휴식', d:'호텔에서 1시간 충전!', type:'hotel', dur:'1시간', p:'grand_central'});
     }
 
     if (!isRain) {
-      stops.push({t: isFull?'18:15':'17:00', n:'YuYuan Night Market', d:'Traditional buildings lit up! Different from DAY3 daytime visit', tip:'Sunset ~18:10. Arrive right after for perfect lighting! JiuQuQiao bridge!', type:'attraction', dur:'30m', p:'yuyuan'});
+      stops.push({t: isFull?'18:15':'17:00', n:'예원상청 야경', d:'전통 건물 조명 환상적! DAY3 낮과 완전 다른 분위기', tip:'일몰 ~18:10. 직후 도착이 조명 타이밍! 구곡교 야경', type:'attraction', dur:'30분', p:'yuyuan'});
     }
 
-    stops.push({t: (isFull&&!isRain)?'19:00':(isFull&&isRain)?'16:00':isRain?'16:00':'18:00', n:'QingYunHua (Peking Duck)', d:'Last dinner! Budget-friendly Peking Duck', tip:'Inside No.1 Dept Store. Walk to hotel! Half duck order OK', type:'food', dur:'1h', p:'qingyunhua'});
+    stops.push({t: (isFull&&!isRain)?'19:00':(isFull&&isRain)?'16:00':isRain?'16:00':'18:00', n:'경운화 (베이징덕)', d:'마지막 밤 저녁! 가성비 베이징덕', tip:'제일백화점 내. 호텔 도보 거리! 반마리 주문 가능', type:'food', dur:'1시간', p:'qingyunhua'});
 
-    stops.push({t: (isFull&&!isRain)?'20:00':(isFull&&isRain)?'17:30':isRain?'17:30':'19:30', n:'Hotel + Last Night', d:'NanJing Rd night walk. Delivery snack!', tip:'MaLaTang or JiaJia TangBao delivery for final snack', type:'hotel', p:'grand_central'});
+    stops.push({t: (isFull&&!isRain)?'20:00':(isFull&&isRain)?'17:30':isRain?'17:30':'19:30', n:'호텔 + 마지막 밤', d:'난징루 야경 산책 + 배달 야식!', tip:'마라탕 or 자자탕바오 배달로 마지막 야식', type:'hotel', p:'grand_central'});
 
     return stops;
   }
@@ -333,7 +331,7 @@ function showMap(day) {
 function render(day) {
   var info = DAYS[day];
   var stops = getStops(day, currentMode);
-  var modeLabel = currentMode === 'full-sun' ? 'Full+Sunny' : currentMode === 'full-rain' ? 'Full+Rainy' : currentMode === 'lite-sun' ? 'Lite+Sunny' : 'Lite+Rainy';
+  var modeLabel = currentMode === 'full-sun' ? '풀코스+맑음' : currentMode === 'full-rain' ? '풀코스+비' : currentMode === 'lite-sun' ? '라이트+맑음' : '라이트+비';
 
   var html = '<div class="schedule-container">';
   html += '<div class="day-title">' + info.title + '</div>';
