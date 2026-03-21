@@ -213,15 +213,7 @@ function getStops(day, mode) {
       stops.push({t: isFull?'17:30':'17:00', n:'황푸강 유람선 (해질녘)', d:'해질녘 탑승이 최고! 루자쭈이~와이탄 야경을 강 위에서', tip:'십류푸 선착장(十六铺码头)에서 출발. 약 1시간 코스. 북와이탄에서 택시 약 10분', type:'cruise', dur:'1시간', p:'cruise'});
     }
 
-    if (isFull && !isRain) {
-      stops.push({t:'19:00', n:'홍쿠이지아 (롱샤)', d:'갈릭+마라 롱샤! 껍질 다 까진 새우가 접시 가득', tip:'金陵东路500号 亚龙国际广场 2층. 호텔 근처! 蒜蓉(갈릭)+麻辣(마라) 둘 다 주문 추천. 유람선에서 택시 약 10분', type:'food', dur:'1.5시간', p:'hongkuijia'});
-      stops.push({t:'21:00', n:'很久以前 제일백화점', d:'쿨링패치+양꼬치+맥주 인스타 3종세트! 한국인 인기 1위 매장', tip:'南京东路830号 第一百货 B馆 6층. 새벽 1시까지 영업! 호텔에서 도보 5분. 대기 1~3시간 가능 - 일찍 갈수록 유리', type:'food', dur:'1.5시간', p:'yangkochi_yb'});
-    } else if (isFull && isRain) {
-      stops.push({t:'18:00', n:'홍쿠이지아 (롱샤)', d:'갈릭+마라 롱샤 저녁! 실내라 비와도 OK', type:'food', dur:'1.5시간', p:'hongkuijia'});
-      stops.push({t:'20:00', n:'很久以前 제일백화점', d:'실내! 비 걱정 없음. 쿨링패치+양꼬치', tip:'새벽 1시까지 영업', type:'food', dur:'1.5시간', p:'yangkochi_yb'});
-    } else {
-      stops.push({t: isRain?'17:30':'18:30', n:'很久以前 제일백화점', d:'양꼬치 저녁! 호텔에서 도보', tip:'새벽 1시까지. 쿨링패치+맥주 = 인스타 세트', type:'food', dur:'1.5시간', p:'yangkochi_yb'});
-    }
+    stops.push({t: isRain?'17:30': isFull?'19:00':'18:30', n:'很久以前 제일백화점', d:'쿨링패치+양꼬치+맥주 인스타 3종세트! 한국인 인기 1위 매장', tip:'南京东路830号 第一百货 B馆 6층. 새벽 1시까지 영업! 호텔에서 도보 5분. 유람선에서 택시 약 10분. 대기 1~3시간 가능 - 일찍 갈수록 유리', type:'food', dur:'1.5시간', p:'yangkochi_yb'});
 
     if (!isFull) {
       stops.push({t:'20:30', n:'호텔 휴식', d:'일찍 쉬기. 배달 야식 추천!', tip:'마라탕 or 자자탕바오 배달 주문', type:'hotel', p:'grand_central'});
@@ -281,7 +273,7 @@ function getStops(day, mode) {
       stops.push({t: isFull?'18:15':'17:00', n:'예원상청 야경', d:'豫园商城 야경! 전통 건물에 조명이 켜지면 환상적. DAY3 낮과 완전 다른 분위기', tip:'3월 일몰 ~18:10. 직후 도착이 조명 타이밍! 구곡교(九曲桥) 야경이 특히 예쁨. 신천지에서 택시 약 10분', type:'attraction', dur:'30분', p:'yuyuan'});
     }
 
-    stops.push({t: (isFull&&!isRain)?'19:00':(isFull&&isRain)?'16:00':isRain?'16:00':'18:00', n:'경운화 (베이징덕)', d:'庆云华. 마지막 밤 저녁! 가성비 베이징덕', tip:'제일백화점(第一百货) 내. 호텔 도보 거리! 바삭한 껍질+촉촉한 오리고기. 반마리(半只) 주문 가능. 예원에서 택시 약 10분', type:'food', dur:'1시간', p:'qingyunhua'});
+    stops.push({t: (isFull&&!isRain)?'19:00':(isFull&&isRain)?'16:00':isRain?'16:00':'18:00', n:'홍쿠이지아 (롱샤)', d:'红盔甲. 마지막 밤 저녁! 갈릭+마라 롱샤 껍질 다 까진 새우 가득', tip:'金陵东路500号 亚龙国际广场 2층. 호텔 근처! 蒜蓉(갈릭)+麻辣(마라) 둘 다 주문. 예원에서 택시 약 10분', type:'food', dur:'1시간', p:'hongkuijia'});
 
     stops.push({t: (isFull&&!isRain)?'20:00':(isFull&&isRain)?'17:30':isRain?'17:30':'19:30', n:'호텔 + 마지막 밤', d:'난징루(南京路) 야경 산책하며 마지막 밤 마무리!', tip:'자자탕바오(佳家汤包, 게살탕바오) or 마라탕(麻辣烫) 배달로 마지막 야식. 어러머/메이투안 앱 활용!', type:'hotel', p:'grand_central'});
 
