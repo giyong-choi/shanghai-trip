@@ -213,7 +213,7 @@ function getStops(day, mode) {
       stops.push({t: isFull?'16:30':'16:00', n:'더 루프 + 신천지', d:'더루프 실내 관람 + 신천지 지붕 있는 구역', type:'attraction', dur:'45분', p:'the_roof'});
     }
 
-    stops.push({t: isRain?'17:00': isFull?'20:30':'17:00', n:'很久以前 제일백화점', d:'쿨링패치+양꼬치+맥주 인스타 3종세트! 한국인 인기 1위', tip:'南京东路830号 第一百货 B馆 6층. 새벽 1시까지! 호텔 도보 5분. 금요일 저녁은 토요일보다 대기 짧음!', type:'food', dur:'1.5시간', p:'yangkochi_yb'});
+    stops.push({t: isRain?'17:00': isFull?'20:30':'17:00', n:'很久以前 제일백화점', d:'쿨링패치+양꼬치+맥주 인스타 3종세트! 한국인 인기 1위', tip:'南京东路830号 第一百货 B馆 6층. 새벽 1시까지! 웨이팅 팁: ① 19:30쯤 대중점평에서 "排队等位" 원격 줄서기 미리 시작! ② 한 명이 먼저 가서 번호표 뽑기 ③ 금요일은 토요일보다 대기 짧음 ④ 매장 입구 QR코드로 위챗 원격 대기 가능', type:'food', dur:'1.5시간', p:'yangkochi_yb'});
 
     if (!isFull) {
       stops.push({t:'19:00', n:'호텔 휴식', d:'일찍 쉬기. 배달 야식!', tip:'마라탕 or 자자탕바오 배달', type:'hotel', p:'grand_central'});
