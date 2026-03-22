@@ -194,20 +194,20 @@ function getStops(day, mode) {
     }
 
     if (!isRain) {
-      stops.push({t: isFull?'13:15':'12:30', n:'학맨션 인생샷 + 우캉루 산책', d:'평일이라 사람 적음! 인생샷 찍기 최적 타이밍', tip:'武康大楼 淮海中路1850号. 老麦咖啡(학맨션 1층 레트로카페)에서 한잔! 차지(霸王茶姬) 밀크티도!', type:'attraction', dur:'30분', p:'wukang'});
+      stops.push({t: isFull?'13:45':'12:30', n:'학맨션 인생샷 + 우캉루 산책', d:'평일이라 사람 적음! 인생샷 찍기 최적 타이밍', tip:'武康大楼 淮海中路1850号. 빈장대도에서 택시 약 30분. 老麦咖啡(학맨션 1층 레트로카페)에서 한잔! 차지(霸王茶姬) 밀크티도!', type:'attraction', dur:'30분', p:'wukang'});
       if (isFull) {
-        stops.push({t:'13:45', n:'武康路 산책 → TAGI 소품샵', d:'플라타너스 가로수길 따라 도보 산책! 길 자체가 인스타 콘텐츠', tip:'TAGI(塔皮屋) 乌鲁木齐中路247-5. 常熟路站 8번출구 도보 420m. 학맨션에서 도보 20분. 武康路 가로수+카페+소품샵 구경하며 산책!', type:'attraction', dur:'30분', p:'wukang'});
-        stops.push({t:'14:15', n:'melomela 소품샵', d:'한국인 인기 소품샵! TAGI에서 도보 11분', tip:'melomela 华亭路4号(近长乐路口). 常熟路站 8번출구 도보 350m. 둘 다 常熟路역 근처!', type:'attraction', dur:'20분', p:'wukang'});
+        stops.push({t:'14:15', n:'武康路 산책 → TAGI 소품샵', d:'플라타너스 가로수길 따라 도보 산책! 길 자체가 인스타 콘텐츠', tip:'TAGI(塔皮屋) 乌鲁木齐中路247-5. 常熟路站 8번출구 도보 420m. 학맨션에서 도보 20분. 武康路 가로수+카페+소품샵 구경하며 산책!', type:'attraction', dur:'30분', p:'wukang'});
+        stops.push({t:'14:45', n:'melomela 소품샵', d:'한국인 인기 소품샵! TAGI에서 도보 11분', tip:'melomela 华亭路4号(近长乐路口). 常熟路站 8번출구 도보 350m. 둘 다 常熟路역 근처!', type:'attraction', dur:'20분', p:'wukang'});
       }
       if (isFull) {
-        stops.push({t:'14:45', n:'Polux (3/27 금 15:00 예약!)', d:'미쉐린 빕구르망 프렌치 비스트로. 배고플 때 먼저!', tip:'Polux by Paul Pairet 太仓路181弄北里5号 신천지. melomela에서 택시! 좌석 10분만 보류 → 정시 도착!', type:'food', dur:'45분', p:'polux'});
+        stops.push({t:'15:00', n:'Polux (3/27 금 15:00 예약!)', d:'미쉐린 빕구르망 프렌치 비스트로. 배고플 때 먼저!', tip:'Polux by Paul Pairet 太仓路181弄北里5号 신천지. melomela에서 택시! 좌석 10분만 보류 → 정시 도착!', type:'food', dur:'45분', p:'polux'});
       }
-      stops.push({t: isFull?'15:30':'14:30', n:'대한민국 임시정부', d:'한국인 필수 방문. 무료 입장', tip:'大韩民国临时政府旧址 马当路306弄4号. Polux에서 도보 5분', type:'attraction', dur:'30분', p:'provisional'});
-      stops.push({t: isFull?'16:00':'15:00', n:'더 루프', d:'장 누벨 설계 빨간색 건축물! 스카이가든+서점', tip:'The Roof 新天地. 임시정부에서 도보 5분', type:'attraction', dur:'20분', p:'the_roof'});
-      stops.push({t: isFull?'16:20':'15:30', n:'티엔즈팡', d:'평일이라 좁은 골목도 여유! 칭즈 핸드크림(青稚护手霜) 선물 구매도!', tip:'田子坊 泰康路210弄. 더루프에서 도보 약 15분. 칭즈 핸드크림 티엔즈팡점에서 생일맞춤 핸드크림 선물 구매!', type:'attraction', dur:'45분', p:'tianzifang'});
-      stops.push({t: isFull?'17:05':'15:30', n:'신천지 산책 + 아머수쫘', d:'스쿠먼 건축 골목 + 아머수쫘(阿嬷手作) 수제 밀크티!', tip:'新天地. 阿嬷手作 수제 타로 밀크티 추천! 헤이티(喜茶)도 근처! 티엔즈팡에서 택시 5분', type:'attraction', dur:'30분', p:'xintiandi'});
+      stops.push({t: isFull?'16:00':'14:30', n:'대한민국 임시정부', d:'한국인 필수 방문. 무료 입장', tip:'大韩民国临时政府旧址 马当路306弄4号. Polux에서 도보 5분', type:'attraction', dur:'30분', p:'provisional'});
+      stops.push({t: isFull?'16:30':'15:00', n:'더 루프', d:'장 누벨 설계 빨간색 건축물! 스카이가든+서점', tip:'The Roof 新天地. 임시정부에서 도보 5분', type:'attraction', dur:'20분', p:'the_roof'});
+      stops.push({t: isFull?'16:50':'15:30', n:'티엔즈팡', d:'평일이라 좁은 골목도 여유! 칭즈 핸드크림(青稚护手霜) 선물 구매도!', tip:'田子坊 泰康路210弄. 더루프에서 도보 약 15분. 칭즈 핸드크림 티엔즈팡점에서 생일맞춤 핸드크림 선물 구매!', type:'attraction', dur:'45분', p:'tianzifang'});
+      stops.push({t: isFull?'17:35':'15:30', n:'신천지 산책 + 아머수쫘', d:'스쿠먼 건축 골목 + 아머수쫘(阿嬷手作) 수제 밀크티!', tip:'新天地. 阿嬷手作 수제 타로 밀크티 추천! 헤이티(喜茶)도 근처! 티엔즈팡에서 택시 5분', type:'attraction', dur:'30분', p:'xintiandi'});
       if (isFull) {
-        stops.push({t:'17:30', n:'호텔 복귀 + 재정비', d:'씻고 쉬면서 체력 충전! 저녁을 위해!', tip:'신천지에서 호텔 택시 약 10분. 샤워+옷 갈아입기+충전. 19:00쯤 대중점평에서 很久以前 원격줄서기 시작!', type:'hotel', dur:'1시간30분', p:'grand_central'});
+        stops.push({t:'18:00', n:'호텔 복귀 + 재정비', d:'씻고 쉬면서 체력 충전! 저녁을 위해!', tip:'신천지에서 호텔 택시 약 10분. 샤워+옷 갈아입기+충전. 19:00쯤 대중점평에서 很久以前 원격줄서기 시작!', type:'hotel', dur:'1시간30분', p:'grand_central'});
       }
     } else {
       stops.push({t: isFull?'14:30':'14:00', n:'호텔 휴식', d:'비 오니까 호텔에서 쉬기!', type:'hotel', dur:'1시간', p:'grand_central'});
@@ -216,8 +216,8 @@ function getStops(day, mode) {
     }
 
     if (isFull && !isRain) {
-      stops.push({t:'19:00', n:'와이탄 야경 산책', d:'호텔 재정비 후 와이탄으로! 유럽건물+푸동 스카이라인 야경', tip:'호텔에서 도보 10분! 20시 이후 조명 가장 화려. 해저라오 원격줄서기 시작!', type:'attraction', dur:'45분', p:'bund'});
-      stops.push({t:'20:00', n:'해저라오 or 배달 선택', d:'해저라오: 훠궈+무료 네일! or 호텔에서 레드립스 마라반 배달', tip:'해저라오: 고덕지도 "海底捞 南京东路" 검색. 와이탄에서 택시 10분. 호텔 재정비 때 원격줄서기 시작하면 대기 줄어듦! 배달: 메이투안 "红唇麻辣拌" 검색', type:'food', dur:'1.5시간', p:'grand_central'});
+      stops.push({t:'19:30', n:'와이탄 야경 산책', d:'호텔 재정비 후 와이탄으로! 유럽건물+푸동 스카이라인 야경', tip:'호텔에서 도보 10분! 20시 이후 조명 가장 화려. 해저라오 원격줄서기 시작!', type:'attraction', dur:'45분', p:'bund'});
+      stops.push({t:'20:30', n:'해저라오 or 배달 선택', d:'해저라오: 훠궈+무료 네일! or 호텔에서 레드립스 마라반 배달', tip:'해저라오: 고덕지도 "海底捞 南京东路" 검색. 와이탄에서 택시 10분. 호텔 재정비 때 원격줄서기 시작하면 대기 줄어듦! 배달: 메이투안 "红唇麻辣拌" 검색', type:'food', dur:'1.5시간', p:'grand_central'});
     } else {
       stops.push({t: isRain?'17:00':'19:00', n:'호텔에서 배달 저녁', d:'레드립스 마라반(红唇麻辣拌) 배달!', tip:'메이투안에서 "红唇麻辣拌" 검색. 우쑤맥주와 함께!', type:'food', dur:'1시간', p:'grand_central'});
     }
