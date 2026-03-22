@@ -253,11 +253,12 @@ function getStops(day, mode) {
     }
 
     if (!isRain) {
-      stops.push({t: isFull?'14:45':'12:00', n:'매너커피 (동방명주 뷰)', d:'오후 순광 = 동방명주 인생샷! 실외지만 넓은 공간이라 주말도 OK', tip:'Manner Coffee 国客滨江店. 통유리+야외테라스. 3천원대 커피. 런허관에서 택시 약 15분', type:'food', dur:'45분', p:'manner'});
-      stops.push({t: isFull?'15:30':'12:45', n:'북와이탄 빈장공원', d:'오후 순광 파노라마! 넓은 공원이라 주말에도 여유', tip:'매너커피 바로 옆 도보 3분', type:'attraction', dur:'30분', p:'north_bund'});
       if (isFull) {
-        stops.push({t:'16:00', n:'락번드 낮 사진!', d:'洛克外滩源. 붉은 벽돌 건물 자연광 인생샷! 독립카페 거리', tip:'북와이탄에서 도보 15분. % Arabica, 堀口커피 등. 자연광이 벽돌에 비춰서 인스타 감성 최고!', type:'attraction', dur:'30분', p:'rockbund'});
+        stops.push({t:'14:30', n:'락번드 + To Summer(观夏)', d:'洛克外滩源. 붉은벽돌 자연광 인생샷 + 观夏(중국 인기 향수 브랜드) 구경', tip:'고덕지도 "洛克外滩源" 검색. 프라다에서 택시. % Arabica 커피도! To Summer(观夏) 향수 선물용으로 좋음', type:'attraction', dur:'30분', p:'rockbund'});
+        stops.push({t:'15:00', n:'자푸루다리(乍浦路桥) 포토', d:'쑤저우하 위에서 와이탄+동방명주+3대빌딩 한 프레임 인생샷!', tip:'고덕지도 "乍浦路桥" 검색. 락번드에서 도보! 상하이 대표 포토스팟', type:'attraction', dur:'15분', p:'north_bund'});
       }
+      stops.push({t: isFull?'15:15':'12:00', n:'매너커피 (동방명주 뷰)', d:'오후 순광 = 동방명주 인생샷! 통유리+야외테라스', tip:'Manner Coffee 国客滨江店. 3천원대 커피. 자푸루다리에서 도보!', type:'food', dur:'45분', p:'manner'});
+      stops.push({t: isFull?'16:00':'12:45', n:'북와이탄 빈장공원', d:'오후 순광 파노라마! 넓은 공원이라 주말에도 여유', tip:'매너커피 바로 옆 도보 3분', type:'attraction', dur:'30분', p:'north_bund'});
     }
 
     stops.push({t: (isFull&&!isRain)?'16:00':(isFull&&isRain)?'13:00':isRain?'12:30':'14:30', n:'바이롄ZX + 칭즈 핸드크림', d:'百联ZX 쇼핑 + 青稚护手霜 선물 구매! 둘 다 난징동루', tip:'百联ZX创趣场 南京东路340号. 미니소, 캐릭터굿즈, 블라인드박스. 칭즈 핸드크림(青稚护手霜QINGZHI 南京东路店) 같은 거리!', type:'attraction', dur:'45분', p:'bailianZX'});
