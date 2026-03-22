@@ -200,7 +200,7 @@ function getStops(day, mode) {
         stops.push({t:'14:45', n:'melomela 소품샵', d:'한국인 인기 소품샵! TAGI에서 도보 11분', tip:'melomela 华亭路4号(近长乐路口). 常熟路站 8번출구 도보 350m. 둘 다 常熟路역 근처!', type:'attraction', dur:'20분', p:'wukang'});
       }
       if (isFull) {
-        stops.push({t:'15:00', n:'Polux (3/27 금 15:00 예약!)', d:'미쉐린 빕구르망 프렌치 비스트로. 배고플 때 먼저!', tip:'Polux by Paul Pairet 太仓路181弄北里5号 신천지. melomela에서 택시! 좌석 10분만 보류 → 정시 도착!', type:'food', dur:'45분', p:'polux'});
+        stops.push({t:'15:15', n:'Polux (3/27 금 15:00 예약!)', d:'미쉐린 빕구르망 프렌치 비스트로. 배고플 때 먼저!', tip:'Polux by Paul Pairet 太仓路181弄北里5号 신천지. melomela에서 택시! 좌석 10분만 보류 → 정시 도착!', type:'food', dur:'45분', p:'polux'});
       }
       if (isFull) {
         stops.push({t:'15:45', n:'HARMAY话梅 (신천지점)', d:'창고형 뷰티 편집숍! 인테리어 자체가 포토스팟', tip:'고덕지도 "话梅 新天地" 검색. HARMAY话梅(上海新天地店). Polux에서 도보! 명품 화장품 샘플 구매 가능. 구경만 해도 OK', type:'attraction', dur:'15분', p:'xintiandi'});
@@ -255,21 +255,21 @@ function getStops(day, mode) {
 
     if (!isRain) {
       if (isFull) {
-        stops.push({t:'14:30', n:'락번드 + To Summer(观夏)', d:'洛克外滩源. 붉은벽돌 자연광 인생샷 + 观夏(중국 인기 향수 브랜드) 구경', tip:'고덕지도 "洛克外滩源" 검색. 프라다에서 택시. % Arabica 커피도! To Summer(观夏) 향수 선물용으로 좋음', type:'attraction', dur:'30분', p:'rockbund'});
-        stops.push({t:'15:00', n:'자푸루다리(乍浦路桥) 포토', d:'쑤저우하 위에서 와이탄+동방명주+3대빌딩 한 프레임 인생샷!', tip:'고덕지도 "乍浦路桥" 검색. 락번드에서 도보! 상하이 대표 포토스팟', type:'attraction', dur:'15분', p:'north_bund'});
+        stops.push({t:'13:30', n:'락번드 + To Summer(观夏)', d:'洛克外滩源. 붉은벽돌 자연광 인생샷 + 观夏(중국 인기 향수 브랜드) 구경', tip:'고덕지도 "洛克外滩源" 검색. 프라다에서 택시. % Arabica 커피도! To Summer(观夏) 향수 선물용으로 좋음', type:'attraction', dur:'30분', p:'rockbund'});
+        stops.push({t:'14:00', n:'자푸루다리(乍浦路桥) 포토', d:'쑤저우하 위에서 와이탄+동방명주+3대빌딩 한 프레임 인생샷!', tip:'고덕지도 "乍浦路桥" 검색. 락번드에서 도보! 상하이 대표 포토스팟', type:'attraction', dur:'15분', p:'north_bund'});
       }
-      stops.push({t: isFull?'15:15':'12:00', n:'매너커피 (동방명주 뷰)', d:'오후 순광 = 동방명주 인생샷! 통유리+야외테라스', tip:'Manner Coffee 国客滨江店. 3천원대 커피. 자푸루다리에서 도보!', type:'food', dur:'45분', p:'manner'});
-      stops.push({t: isFull?'16:00':'12:45', n:'북와이탄 빈장공원', d:'오후 순광 파노라마! 넓은 공원이라 주말에도 여유', tip:'매너커피 바로 옆 도보 3분', type:'attraction', dur:'30분', p:'north_bund'});
+      stops.push({t: isFull?'14:15':'12:00', n:'매너커피 (동방명주 뷰)', d:'오후 순광 = 동방명주 인생샷! 통유리+야외테라스', tip:'Manner Coffee 国客滨江店. 3천원대 커피. 자푸루다리에서 도보!', type:'food', dur:'45분', p:'manner'});
+      stops.push({t: isFull?'15:00':'12:45', n:'북와이탄 빈장공원', d:'오후 순광 파노라마! 넓은 공원이라 주말에도 여유', tip:'매너커피 바로 옆 도보 3분', type:'attraction', dur:'30분', p:'north_bund'});
     }
 
-    stops.push({t: (isFull&&!isRain)?'16:00':(isFull&&isRain)?'13:00':isRain?'12:30':'14:30', n:'바이롄ZX + 칭즈 핸드크림', d:'百联ZX 쇼핑 + 青稚护手霜 선물 구매! 둘 다 난징동루', tip:'百联ZX创趣场 南京东路340号. 미니소, 캐릭터굿즈, 블라인드박스. 칭즈 핸드크림(青稚护手霜QINGZHI 南京东路店) 같은 거리!', type:'attraction', dur:'45분', p:'bailianZX'});
+    stops.push({t: (isFull&&!isRain)?'15:45':(isFull&&isRain)?'13:00':isRain?'12:30':'14:30', n:'바이롄ZX + 칭즈 핸드크림', d:'百联ZX 쇼핑 + 青稚护手霜 선물 구매! 둘 다 난징동루', tip:'百联ZX创趣场 南京东路340号. 미니소, 캐릭터굿즈, 블라인드박스. 칭즈 핸드크림(青稚护手霜QINGZHI 南京东路店) 같은 거리!', type:'attraction', dur:'45분', p:'bailianZX'});
 
     if (isFull && !isRain) {
       stops.push({t:'16:45', n:'정안대열성(静安大悦城)', d:'남관+북관 대형 쇼핑몰! 옥상 관람차도 유명', tip:'고덕지도 "静安大悦城" 검색. 西藏北路166号. 지하철 8/12호선 曲阜路站. 바이롄ZX에서 택시 약 10분', type:'attraction', dur:'45분', p:'bailianZX'});
     }
 
     if (isFull && !isRain) {
-      stops.push({t:'17:00', n:'호텔 휴식 + 천안천수 선택', d:'호텔에서 쉬기 or 체력 되면 천안천수 다녀오기!', tip:'고덕지도 "天安千树" 검색! 莫干山路600号. 체력 OK면 택시로 왕복 약 1시간. 피곤하면 호텔에서 푹 쉬기!', type:'hotel', dur:'1시간', p:'grand_central'});
+      stops.push({t:'17:30', n:'호텔 휴식 + 천안천수 선택', d:'호텔에서 쉬기 or 체력 되면 천안천수 다녀오기!', tip:'고덕지도 "天安千树" 검색! 莫干山路600号. 체력 OK면 택시로 왕복 약 1시간. 피곤하면 호텔에서 푹 쉬기!', type:'hotel', dur:'1시간', p:'grand_central'});
     }
 
     if (!isFull) {
