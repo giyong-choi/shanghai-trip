@@ -232,23 +232,23 @@ function getStops(day, mode) {
       stops.push({t:'09:30', n:'프라다 롱자이 (실내)', d:'비 오는 날 최고! 실내 전시', tip:'무료 입장', type:'attraction', dur:'45분', p:'prada'});
     }
 
-    stops.push({t: (isFull&&!isRain)?'11:30':(isFull&&isRain)?'11:00':isRain?'10:30':'10:30', n: isFull?'런허관 (미쉐린 11:00 예약)':'런허관 or 해저라오', d: isFull?'人和馆. 미쉐린 1스타! 금패홍샤오로우(红烧肉), 송슈구이위(松鼠桂鱼) 필수':'런허관(미쉐린) or 해저라오(훠궈+네일) 택1', tip: isFull?'肇嘉浜路店. 11:00 예약 완료! 치파오 가수 라이브!':'해저라오: 무료 네일+팝콘!', type:'food', dur:'1시간15분', p:'renheguan'});
+    stops.push({t: (isFull&&!isRain)?'11:00':(isFull&&isRain)?'11:00':isRain?'10:30':'10:30', n: isFull?'런허관 (11:00 예약완료!)':'런허관 or 해저라오', d: isFull?'人和馆 静安寺店. 미쉐린 1스타! 금패홍샤오로우(红烧肉), 송슈구이위(松鼠桂鱼) 필수':'런허관(미쉐린) or 해저라오(훠궈+네일) 택1', tip: isFull?'愚园路142号 3층. 예약금 ¥300 결제완료(식사후 환불). 10분 전 도착!':'해저라오: 무료 네일+팝콘!', type:'food', dur:'1시간15분', p:'renheguan'});
 
     if (!isRain) {
-      stops.push({t: isFull?'13:00':'12:00', n:'매너커피 (동방명주 뷰)', d:'오후 순광 = 동방명주 인생샷! 실외지만 넓은 공간이라 주말도 OK', tip:'Manner Coffee 国客滨江店. 통유리+야외테라스. 3천원대 커피. 런허관에서 택시 약 15분', type:'food', dur:'45분', p:'manner'});
-      stops.push({t: isFull?'13:45':'12:45', n:'북와이탄 빈장공원', d:'오후 순광 파노라마! 넓은 공원이라 주말에도 여유', tip:'매너커피 바로 옆 도보 3분', type:'attraction', dur:'30분', p:'north_bund'});
+      stops.push({t: isFull?'12:30':'12:00', n:'매너커피 (동방명주 뷰)', d:'오후 순광 = 동방명주 인생샷! 실외지만 넓은 공간이라 주말도 OK', tip:'Manner Coffee 国客滨江店. 통유리+야외테라스. 3천원대 커피. 런허관에서 택시 약 15분', type:'food', dur:'45분', p:'manner'});
+      stops.push({t: isFull?'13:15':'12:45', n:'북와이탄 빈장공원', d:'오후 순광 파노라마! 넓은 공원이라 주말에도 여유', tip:'매너커피 바로 옆 도보 3분', type:'attraction', dur:'30분', p:'north_bund'});
     }
 
     if (!isRain) {
-      stops.push({t: isFull?'14:30':'13:30', n:'와이탄 강변 산책', d:'황푸강변 유럽풍 건축물. 주말이지만 강변이라 넓음', tip:'헤이티(喜茶) 한잔! 북와이탄에서 택시 약 10분', type:'attraction', dur:'45분', p:'bund'});
+      stops.push({t: isFull?'14:00':'13:30', n:'와이탄 강변 산책', d:'황푸강변 유럽풍 건축물. 주말이지만 강변이라 넓음', tip:'헤이티(喜茶) 한잔! 북와이탄에서 택시 약 10분', type:'attraction', dur:'45분', p:'bund'});
     } else {
       stops.push({t: isFull?'12:30':'12:00', n:'와이탄 (짧게)', d:'우산 쓰고 간단히 or 폭우시 스킵', type:'attraction', dur:'20분', p:'bund'});
     }
 
-    stops.push({t: (isFull&&!isRain)?'15:30':(isFull&&isRain)?'13:00':isRain?'12:30':'14:30', n:'바이롄ZX 쇼핑', d:'百联ZX. 7층 서브컬처 쇼핑몰! 실내라 주말/비 모두 OK', tip:'난징동루 한복판. 미니소, 캐릭터굿즈, 블라인드박스. 아키하바라급 스케일', type:'attraction', dur:'1시간', p:'bailianZX'});
+    stops.push({t: (isFull&&!isRain)?'15:00':(isFull&&isRain)?'13:00':isRain?'12:30':'14:30', n:'바이롄ZX 쇼핑', d:'百联ZX. 7층 서브컬처 쇼핑몰! 실내라 주말/비 모두 OK', tip:'난징동루 한복판. 미니소, 캐릭터굿즈, 블라인드박스. 아키하바라급 스케일', type:'attraction', dur:'1시간', p:'bailianZX'});
 
     if (isFull) {
-      stops.push({t: (isFull&&!isRain)?'17:00':(isFull&&isRain)?'14:30':isRain?'14:30':'16:00', n:'Polux 카페', d:'미쉐린 빕구르망 프렌치 비스트로', tip:'太仓路181弄5号 신천지 내. Paul Pairet 셰프', type:'food', dur:'30분', p:'polux'});
+      stops.push({t: (isFull&&!isRain)?'17:00':(isFull&&isRain)?'14:30':isRain?'14:30':'16:00', n:'Polux (17:00 예약완료!)', d:'미쉐린 빕구르망 프렌치 비스트로', tip:'太仓路181弄北里5号 신천지. 예약금 없음. 좌석 10분만 보류 → 정시 도착!', type:'food', dur:'30분', p:'polux'});
     }
 
     if (!isFull) {
