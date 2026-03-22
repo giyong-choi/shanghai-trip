@@ -121,8 +121,8 @@ var P = {
   tiananqs: { n:'1000 Trees', c:'', lat:31.2425, lng:121.4320, t:'attraction' },
   prada: { n:'Prada RongZhai', c:'', lat:31.2270, lng:121.4530, t:'attraction' },
   hongde: { n:'HongDe+AderError', c:'', lat:31.2280, lng:121.4525, t:'attraction' },
-  wukang: { n:'WuKang Road', c:'', lat:31.2095, lng:121.4365, t:'attraction' },
-  renheguan: { n:'RenHeGuan', c:'', lat:31.2050, lng:121.4520, t:'food' },
+  wukang: { n:'WuKang Road', c:'', lat:31.2108, lng:121.4317, t:'attraction' },
+  renheguan: { n:'RenHeGuan', c:'', lat:31.2230, lng:121.4450, t:'food' },
   tianzifang: { n:'TianZiFang', c:'', lat:31.2100, lng:121.4680, t:'attraction' },
   provisional: { n:'KR Provisional Gov', c:'', lat:31.2195, lng:121.4740, t:'attraction' },
   the_roof: { n:'The Roof', c:'', lat:31.2188, lng:121.4735, t:'attraction' },
@@ -131,7 +131,7 @@ var P = {
   qingyunhua: { n:'QingYunHua', c:'', lat:31.2345, lng:121.4790, t:'food' },
   haidilao: { n:'HaiDiLao', c:'', lat:31.2330, lng:121.4760, t:'food' },
   bailianZX: { n:'BaiLian ZX', c:'', lat:31.2355, lng:121.4785, t:'attraction' },
-  anpulu: { n:'AnFu Road', c:'', lat:31.2160, lng:121.4420, t:'attraction' },
+  anpulu: { n:'AnFu Road', c:'', lat:31.2115, lng:121.4340, t:'attraction' },
   juluru: { n:'JuLu Road', c:'', lat:31.2250, lng:121.4550, t:'attraction' }
 };
 
@@ -188,22 +188,26 @@ function getStops(day, mode) {
       {t:'11:30', n:'점도덕 (브런치)', d:'홍미창펀(红米肠粉, 새우튀김 쌀피롤) 꼭 주문! 하가우, 차슈바오도 추천', tip:'世纪大道1192号 世纪汇 2층. 지하철 2호선 세기대도역. 인민광장에서 약 10분', type:'food', dur:'45분', p:'diandude'}
     ];
 
+    if (isFull) {
+      stops.push({t:'12:30', n:'푸동 강변공원 산책', d:'황푸강변 공원에서 꽃구경+산책! 3월 말 꽃이 예쁘게 핌', tip:'점도덕에서 도보 10분. 동방명주 외관도 배경으로 보임!', type:'attraction', dur:'30분', p:'pudong_art'});
+    }
+
     if (!isRain) {
-      stops.push({t: isFull?'12:30':'12:30', n:'우캉루 + 학맨션 인생샷', d:'평일이라 사람 적음! 인생샷 찍기 최적 타이밍', tip:'武康路/武康大楼. TAGI(塔皮屋, 乌鲁木齐中路247-5) 소품샵. OBJECT LAB, FENCHILIN도. 차지(霸王茶姬) 밀크티! 점도덕에서 택시 약 20분', type:'attraction', dur:'45분', p:'wukang'});
+      stops.push({t: isFull?'13:15':'12:30', n:'우캉루 + 학맨션 인생샷', d:'평일이라 사람 적음! 인생샷 찍기 최적 타이밍', tip:'武康路/武康大楼. TAGI(塔皮屋, 乌鲁木齐中路247-5) 소품샵. OBJECT LAB, FENCHILIN도. 차지(霸王茶姬) 밀크티! 점도덕에서 택시 약 20분', type:'attraction', dur:'45분', p:'wukang'});
       if (isFull) {
-        stops.push({t:'13:15', n:'안푸루 (무신사/SHUSHU TONG)', d:'安福路. 한국 성수동 감성! 무신사 해외 1호점 + SHUSHU/TONG', tip:'우캉루에서 도보 10분! 편집숍+카페 거리. 한국 패션피플 필수 코스', type:'attraction', dur:'45분', p:'wukang'});
+        stops.push({t:'14:00', n:'안푸루 (무신사/SHUSHU TONG)', d:'安福路. 한국 성수동 감성! 무신사 해외 1호점 + SHUSHU/TONG', tip:'우캉루에서 도보 10분! 편집숍+카페 거리. 한국 패션피플 필수 코스', type:'attraction', dur:'45분', p:'wukang'});
       }
       if (isFull) {
-        stops.push({t:'14:15', n:'티엔즈팡', d:'평일이라 좁은 골목도 여유! 주말에는 인파로 지옥', tip:'泰康路210弄. 지하철 9호선 다푸차오역. 안푸루에서 택시 약 10분', type:'attraction', dur:'45분', p:'tianzifang'});
+        stops.push({t:'14:45', n:'티엔즈팡', d:'평일이라 좁은 골목도 여유! 주말에는 인파로 지옥', tip:'泰康路210弄. 지하철 9호선 다푸차오역. 안푸루에서 택시 약 10분', type:'attraction', dur:'45분', p:'tianzifang'});
       }
       if (isFull) {
-        stops.push({t:'15:00', n:'Polux (3/27 금 15:00 예약!)', d:'미쉐린 빕구르망 프렌치 비스트로. 배고플 때 먼저 먹기!', tip:'太仓路181弄北里5号 신천지 내. 티엔즈팡에서 택시 약 5분. 좌석 10분만 보류 → 정시 도착!', type:'food', dur:'45분', p:'polux'});
+        stops.push({t:'15:30', n:'Polux (3/27 금 15:00 예약!)', d:'미쉐린 빕구르망 프렌치 비스트로. 배고플 때 먼저 먹기!', tip:'太仓路181弄北里5号 신천지 내. 티엔즈팡에서 택시 약 5분. 좌석 10분만 보류 → 정시 도착!', type:'food', dur:'45분', p:'polux'});
       }
-      stops.push({t: isFull?'15:45':'14:30', n:'대한민국 임시정부', d:'한국인 필수 방문. 무료 입장', tip:'马当路306弄4号. 1926~1932 청사. Polux에서 도보 5분', type:'attraction', dur:'30분', p:'provisional'});
-      stops.push({t: isFull?'16:15':'15:00', n:'더 루프', d:'장 누벨 설계 빨간색 건축물! 스카이가든+서점', tip:'신천지 내. 빨간 벽돌 포토스팟! 임시정부에서 도보 5분', type:'attraction', dur:'20분', p:'the_roof'});
-      stops.push({t: isFull?'16:45':'15:30', n:'신천지 산책 + 아머수쫘', d:'스쿠먼 건축 골목 + 아머수쫘(阿嬷手作) 수제 밀크티!', tip:'신천지 근처 매장. 수제 타로 밀크티 추천! 한국인 인스타 필수 음료. 헤이티(喜茶)도 근처!', type:'attraction', dur:'30분', p:'xintiandi'});
+      stops.push({t: isFull?'16:15':'14:30', n:'대한민국 임시정부', d:'한국인 필수 방문. 무료 입장', tip:'马当路306弄4号. 1926~1932 청사. Polux에서 도보 5분', type:'attraction', dur:'30분', p:'provisional'});
+      stops.push({t: isFull?'16:45':'15:00', n:'더 루프', d:'장 누벨 설계 빨간색 건축물! 스카이가든+서점', tip:'신천지 내. 빨간 벽돌 포토스팟! 임시정부에서 도보 5분', type:'attraction', dur:'20분', p:'the_roof'});
+      stops.push({t: isFull?'17:05':'15:30', n:'신천지 산책 + 아머수쫘', d:'스쿠먼 건축 골목 + 아머수쫘(阿嬷手作) 수제 밀크티!', tip:'신천지 근처 매장. 수제 타로 밀크티 추천! 한국인 인스타 필수 음료. 헤이티(喜茶)도 근처!', type:'attraction', dur:'30분', p:'xintiandi'});
       if (isFull) {
-        stops.push({t:'17:15', n:'호텔 복귀 + 재정비', d:'씻고 쉬면서 체력 충전! 저녁을 위해!', tip:'신천지에서 호텔 택시 약 10분. 샤워+옷 갈아입기+충전. 19:00쯤 대중점평에서 很久以前 원격줄서기 시작!', type:'hotel', dur:'1시간30분', p:'grand_central'});
+        stops.push({t:'17:30', n:'호텔 복귀 + 재정비', d:'씻고 쉬면서 체력 충전! 저녁을 위해!', tip:'신천지에서 호텔 택시 약 10분. 샤워+옷 갈아입기+충전. 19:00쯤 대중점평에서 很久以前 원격줄서기 시작!', type:'hotel', dur:'1시간30분', p:'grand_central'});
       }
     } else {
       stops.push({t: isFull?'14:30':'14:00', n:'호텔 휴식', d:'비 오니까 호텔에서 쉬기!', type:'hotel', dur:'1시간', p:'grand_central'});
