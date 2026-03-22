@@ -194,12 +194,14 @@ function getStops(day, mode) {
       if (isFull) {
         stops.push({t:'14:00', n:'티엔즈팡', d:'평일이라 좁은 골목도 여유! 주말에는 인파로 지옥', tip:'泰康路210弄. 지하철 9호선 다푸차오역. 우캉루에서 택시 약 10분', type:'attraction', dur:'45분', p:'tianzifang'});
       }
-      stops.push({t: isFull?'15:00':'14:30', n:'대한민국 임시정부', d:'한국인 필수 방문. 무료 입장', tip:'马当路306弄4号. 1926~1932 청사. 티엔즈팡에서 택시 약 5분', type:'attraction', dur:'30분', p:'provisional'});
-      stops.push({t: isFull?'15:30':'15:00', n:'더 루프', d:'장 누벨 설계 빨간색 건축물! 스카이가든+서점', tip:'신천지 내. 빨간 벽돌 포토스팟! 임시정부에서 도보 5분', type:'attraction', dur:'20분', p:'the_roof'});
-      stops.push({t: isFull?'16:00':'15:30', n:'신천지 산책', d:'스쿠먼 건축 골목. 카페, 바 밀집', tip:'헤이티(喜茶) 한잔! 더루프에서 도보 3분', type:'attraction', dur:'30분', p:'xintiandi'});
       if (isFull) {
-        stops.push({t:'16:30', n:'Polux (3/27 금 17:00 예약완료!)', d:'미쉐린 빕구르망 프렌치 비스트로. 신천지 마무리!', tip:'太仓路181弄北里5号 신천지 내. 도보 3분. 좌석 10분만 보류 → 정시 도착!', type:'food', dur:'30분', p:'polux'});
-        stops.push({t:'18:15', n:'와이탄 야경!', d:'일몰 직후 황푸강변 야경! 동방명주+루자쭈이 스카이라인 조명 환상적', tip:'신천지에서 택시 약 10분. 해질녘~야경 전환 타이밍이 최고! 사진 많이 찍기', type:'attraction', dur:'30분', p:'bund'});
+        stops.push({t:'15:00', n:'Polux (3/27 금 15:00 예약!)', d:'미쉐린 빕구르망 프렌치 비스트로. 배고플 때 먼저 먹기!', tip:'太仓路181弄北里5号 신천지 내. 티엔즈팡에서 택시 약 5분. 좌석 10분만 보류 → 정시 도착!', type:'food', dur:'45분', p:'polux'});
+      }
+      stops.push({t: isFull?'15:45':'14:30', n:'대한민국 임시정부', d:'한국인 필수 방문. 무료 입장', tip:'马当路306弄4号. 1926~1932 청사. Polux에서 도보 5분', type:'attraction', dur:'30분', p:'provisional'});
+      stops.push({t: isFull?'16:15':'15:00', n:'더 루프', d:'장 누벨 설계 빨간색 건축물! 스카이가든+서점', tip:'신천지 내. 빨간 벽돌 포토스팟! 임시정부에서 도보 5분', type:'attraction', dur:'20분', p:'the_roof'});
+      stops.push({t: isFull?'16:45':'15:30', n:'신천지 산책', d:'스쿠먼 건축 골목. 카페, 바 밀집', tip:'헤이티(喜茶) 한잔! 더루프에서 도보 3분', type:'attraction', dur:'30분', p:'xintiandi'});
+      if (isFull) {
+        stops.push({t:'18:15', n:'와이탄 야경!', d:'일몰 직후 황푸강변 야경! 동방명주+루자쭈이 스카이라인 조명 환상적', tip:'신천지에서 택시 약 10분. 해질녘~야경 전환 타이밍이 최고!', type:'attraction', dur:'30분', p:'bund'});
       }
     } else {
       stops.push({t: isFull?'14:30':'14:00', n:'호텔 휴식', d:'비 오니까 호텔에서 쉬기!', type:'hotel', dur:'1시간', p:'grand_central'});
