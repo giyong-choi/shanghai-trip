@@ -234,7 +234,7 @@ function getStops(day, mode) {
     stops.push({t:'09:30', n:'지엔빙 아침', d:'여유롭게! 난징루 노점에서 지엔빙궈쯔(煎饼果子). 5~10위안', type:'food', p:'grand_central'});
 
     if (isFull && !isRain) {
-      stops.push({t:'10:15', n:'捏麼好喝 (슬라임/스퀴시)', d:'슬라임, 스퀴시 소품샵! 런허관 전에 구경', tip:'고덕지도 "捏麼好喝 静安" 검색. 런허관과 같은 정안 구역! 도보 거리', type:'attraction', dur:'30분', p:'renheguan'});
+      stops.push({t:'10:20', n:'捏麼好喝 (슬라임/스퀴시)', d:'슬라임, 스퀴시 소품샵! 10분 구경 후 런허관 도보 10분', tip:'고덕지도 "捏麼好喝 静安" 검색. 호텔에서 택시 20분. 런허관까지 도보 10분!', type:'attraction', dur:'10분', p:'renheguan'});
     }
 
     stops.push({t: (isFull&&!isRain)?'11:00':(isFull&&isRain)?'11:00':isRain?'10:30':'10:30', n: isFull?'런허관 (11:00 예약완료!)':'런허관 or 해저라오', d: isFull?'人和馆 静安寺店. 미쉐린 1스타! 금패홍샤오로우(红烧肉), 송슈구이위(松鼠桂鱼) 필수':'런허관(미쉐린) or 해저라오(훠궈+네일) 택1', tip: isFull?'愚园路142-146号 3층. 예약금 ¥300 결제완료(식사후 환불). 10분 전 도착! 근처 소품샵: melomela(정안쓰 근처), cheng cheng(헬로키티 소품)도 체크!':'해저라오: 무료 네일+팝콘!', type:'food', dur:'1시간15분', p:'renheguan'});
