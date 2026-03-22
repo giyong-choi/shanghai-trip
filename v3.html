@@ -189,20 +189,17 @@ function getStops(day, mode) {
       stops.push({t:'12:30', n:'푸동 강변공원 산책', d:'황푸강변 공원에서 꽃구경+산책! 3월 말 꽃이 예쁘게 핌. 동방명주 외관도 보임', tip:'점도덕에서 도보 10분', type:'attraction', dur:'30분', p:'pudong_art'});
     }
 
-    stops.push({t: isFull?'13:15':'12:45', n:'예원 관람', d:'400년 명나라 정원. 평일이라 한적! 주말보다 사진 훨씬 좋음', tip:'페리로 강 건너기(약 10분, 2위안). 입장료 약 40위안. 평일 = 여유롭게 관람', type:'attraction', dur:'30분', p:'yuyuan'});
-    stops.push({t: isFull?'13:45':'13:15', n:'예원상청 간식 탐방', d:'토끼유과, 탕후루, 길거리 꼬치 등 가볍게!', tip:'다바이투(大白兔) 밀크티 매장도 있음! 기념품 쇼핑도 함께', type:'food', dur:'30분', p:'yuyuan'});
-
     if (!isRain) {
-      stops.push({t: isFull?'14:30':'14:00', n:'우캉루 + 학맨션 인생샷', d:'평일이라 사람 적음! 인생샷 찍기 최적 타이밍', tip:'武康路/武康大楼. TAGI(塔皮屋, 乌鲁木齐中路247-5) 소품샵. OBJECT LAB, FENCHILIN도. 차지(霸王茶姬) 밀크티! 예원에서 택시 약 15분', type:'attraction', dur:'45분', p:'wukang'});
+      stops.push({t: isFull?'13:00':'12:30', n:'우캉루 + 학맨션 인생샷', d:'평일이라 사람 적음! 인생샷 찍기 최적 타이밍', tip:'武康路/武康大楼. TAGI(塔皮屋, 乌鲁木齐中路247-5) 소품샵. OBJECT LAB, FENCHILIN도. 차지(霸王茶姬) 밀크티! 강변공원에서 택시 약 20분', type:'attraction', dur:'45분', p:'wukang'});
       if (isFull) {
-        stops.push({t:'15:30', n:'티엔즈팡', d:'평일이라 좁은 골목도 여유! 주말에는 인파로 지옥', tip:'泰康路210弄. 지하철 9호선 다푸차오역. 우캉루에서 택시 약 10분', type:'attraction', dur:'45분', p:'tianzifang'});
+        stops.push({t:'14:00', n:'티엔즈팡', d:'평일이라 좁은 골목도 여유! 주말에는 인파로 지옥', tip:'泰康路210弄. 지하철 9호선 다푸차오역. 우캉루에서 택시 약 10분', type:'attraction', dur:'45분', p:'tianzifang'});
       }
-      stops.push({t: isFull?'16:30':'15:00', n:'대한민국 임시정부', d:'한국인 필수 방문. 무료 입장', tip:'马当路306弄4号. 1926~1932 청사. 티엔즈팡에서 택시 약 5분', type:'attraction', dur:'30분', p:'provisional'});
-      stops.push({t: isFull?'17:00':'15:30', n:'더 루프', d:'장 누벨 설계 빨간색 건축물! 스카이가든+서점', tip:'신천지 내. 빨간 벽돌 포토스팟! 임시정부에서 도보 5분', type:'attraction', dur:'20분', p:'the_roof'});
-      stops.push({t: isFull?'17:30':'16:00', n:'신천지 산책', d:'스쿠먼 건축 골목. 카페, 바 밀집', tip:'헤이티(喜茶) 한잔! 더루프에서 도보 3분', type:'attraction', dur:'30분', p:'xintiandi'});
+      stops.push({t: isFull?'15:00':'14:30', n:'대한민국 임시정부', d:'한국인 필수 방문. 무료 입장', tip:'马当路306弄4号. 1926~1932 청사. 티엔즈팡에서 택시 약 5분', type:'attraction', dur:'30분', p:'provisional'});
+      stops.push({t: isFull?'15:30':'15:00', n:'더 루프', d:'장 누벨 설계 빨간색 건축물! 스카이가든+서점', tip:'신천지 내. 빨간 벽돌 포토스팟! 임시정부에서 도보 5분', type:'attraction', dur:'20분', p:'the_roof'});
+      stops.push({t: isFull?'16:00':'15:30', n:'신천지 산책', d:'스쿠먼 건축 골목. 카페, 바 밀집', tip:'헤이티(喜茶) 한잔! 더루프에서 도보 3분', type:'attraction', dur:'30분', p:'xintiandi'});
       if (isFull) {
-        stops.push({t:'18:00', n:'Polux (3/27 금 17:00 예약완료!)', d:'미쉐린 빕구르망 프렌치 비스트로. 신천지 마무리!', tip:'太仓路181弄北里5号 신천지 내. 도보 3분. 좌석 10분만 보류 → 정시 도착!', type:'food', dur:'30분', p:'polux'});
-        stops.push({t:'18:45', n:'와이탄 야경!', d:'일몰 직후 황푸강변 야경! 동방명주+루자쭈이 스카이라인 조명 환상적', tip:'신천지에서 택시 약 10분. 해질녘~야경 전환 타이밍이 최고! 사진 많이 찍기', type:'attraction', dur:'30분', p:'bund'});
+        stops.push({t:'16:30', n:'Polux (3/27 금 17:00 예약완료!)', d:'미쉐린 빕구르망 프렌치 비스트로. 신천지 마무리!', tip:'太仓路181弄北里5号 신천지 내. 도보 3분. 좌석 10분만 보류 → 정시 도착!', type:'food', dur:'30분', p:'polux'});
+        stops.push({t:'18:15', n:'와이탄 야경!', d:'일몰 직후 황푸강변 야경! 동방명주+루자쭈이 스카이라인 조명 환상적', tip:'신천지에서 택시 약 10분. 해질녘~야경 전환 타이밍이 최고! 사진 많이 찍기', type:'attraction', dur:'30분', p:'bund'});
       }
     } else {
       stops.push({t: isFull?'14:30':'14:00', n:'호텔 휴식', d:'비 오니까 호텔에서 쉬기!', type:'hotel', dur:'1시간', p:'grand_central'});
@@ -210,7 +207,7 @@ function getStops(day, mode) {
       stops.push({t: isFull?'16:30':'16:00', n:'더 루프 + 신천지', d:'더루프 실내 관람 + 신천지 지붕 있는 구역', type:'attraction', dur:'45분', p:'the_roof'});
     }
 
-    stops.push({t: isRain?'17:00': isFull?'19:30':'17:00', n:'很久以前 제일백화점', d:'쿨링패치+양꼬치+맥주 인스타 3종세트! 한국인 인기 1위', tip:'南京东路830号 第一百货 B馆 6층. 새벽 1시까지! 호텔 도보 5분. 금요일 저녁은 토요일보다 대기 짧음!', type:'food', dur:'1.5시간', p:'yangkochi_yb'});
+    stops.push({t: isRain?'17:00': isFull?'19:00':'17:00', n:'很久以前 제일백화점', d:'쿨링패치+양꼬치+맥주 인스타 3종세트! 한국인 인기 1위', tip:'南京东路830号 第一百货 B馆 6층. 새벽 1시까지! 호텔 도보 5분. 금요일 저녁은 토요일보다 대기 짧음!', type:'food', dur:'1.5시간', p:'yangkochi_yb'});
 
     if (!isFull) {
       stops.push({t:'19:00', n:'호텔 휴식', d:'일찍 쉬기. 배달 야식!', tip:'마라탕 or 자자탕바오 배달', type:'hotel', p:'grand_central'});
