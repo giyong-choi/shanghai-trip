@@ -202,6 +202,7 @@ function getStops(day, mode) {
       stops.push({t: isFull?'17:30':'16:00', n:'신천지 산책', d:'스쿠먼 건축 골목. 카페, 바 밀집', tip:'헤이티(喜茶) 한잔! 더루프에서 도보 3분', type:'attraction', dur:'30분', p:'xintiandi'});
       if (isFull) {
         stops.push({t:'18:00', n:'Polux (3/27 금 17:00 예약완료!)', d:'미쉐린 빕구르망 프렌치 비스트로. 신천지 마무리!', tip:'太仓路181弄北里5号 신천지 내. 도보 3분. 좌석 10분만 보류 → 정시 도착!', type:'food', dur:'30분', p:'polux'});
+        stops.push({t:'18:45', n:'와이탄 야경!', d:'일몰 직후 황푸강변 야경! 동방명주+루자쭈이 스카이라인 조명 환상적', tip:'신천지에서 택시 약 10분. 해질녘~야경 전환 타이밍이 최고! 사진 많이 찍기', type:'attraction', dur:'30분', p:'bund'});
       }
     } else {
       stops.push({t: isFull?'14:30':'14:00', n:'호텔 휴식', d:'비 오니까 호텔에서 쉬기!', type:'hotel', dur:'1시간', p:'grand_central'});
@@ -209,7 +210,7 @@ function getStops(day, mode) {
       stops.push({t: isFull?'16:30':'16:00', n:'더 루프 + 신천지', d:'더루프 실내 관람 + 신천지 지붕 있는 구역', type:'attraction', dur:'45분', p:'the_roof'});
     }
 
-    stops.push({t: isRain?'17:00': isFull?'19:00':'17:00', n:'很久以前 제일백화점', d:'쿨링패치+양꼬치+맥주 인스타 3종세트! 한국인 인기 1위', tip:'南京东路830号 第一百货 B馆 6층. 새벽 1시까지! 호텔 도보 5분. 금요일 저녁은 토요일보다 대기 짧음!', type:'food', dur:'1.5시간', p:'yangkochi_yb'});
+    stops.push({t: isRain?'17:00': isFull?'19:30':'17:00', n:'很久以前 제일백화점', d:'쿨링패치+양꼬치+맥주 인스타 3종세트! 한국인 인기 1위', tip:'南京东路830号 第一百货 B馆 6층. 새벽 1시까지! 호텔 도보 5분. 금요일 저녁은 토요일보다 대기 짧음!', type:'food', dur:'1.5시간', p:'yangkochi_yb'});
 
     if (!isFull) {
       stops.push({t:'19:00', n:'호텔 휴식', d:'일찍 쉬기. 배달 야식!', tip:'마라탕 or 자자탕바오 배달', type:'hotel', p:'grand_central'});
@@ -242,25 +243,23 @@ function getStops(day, mode) {
       stops.push({t: isFull?'13:15':'12:45', n:'북와이탄 빈장공원', d:'오후 순광 파노라마! 넓은 공원이라 주말에도 여유', tip:'매너커피 바로 옆 도보 3분', type:'attraction', dur:'30분', p:'north_bund'});
     }
 
-    if (!isRain) {
-      stops.push({t: isFull?'14:00':'13:30', n:'와이탄 강변 산책', d:'황푸강변 유럽풍 건축물. 주말이지만 강변이라 넓음', tip:'헤이티(喜茶) 한잔! 북와이탄에서 택시 약 10분', type:'attraction', dur:'45분', p:'bund'});
-    } else {
-      stops.push({t: isFull?'12:30':'12:00', n:'와이탄 (짧게)', d:'우산 쓰고 간단히 or 폭우시 스킵', type:'attraction', dur:'20분', p:'bund'});
-    }
+    stops.push({t: (isFull&&!isRain)?'14:00':(isFull&&isRain)?'13:00':isRain?'12:30':'14:30', n:'바이롄ZX 쇼핑', d:'百联ZX. 7층 서브컬처 쇼핑몰! 실내라 주말/비 모두 OK', tip:'난징동루 한복판. 미니소, 캐릭터굿즈, 블라인드박스. 아키하바라급 스케일', type:'attraction', dur:'1시간', p:'bailianZX'});
 
-    stops.push({t: (isFull&&!isRain)?'15:00':(isFull&&isRain)?'13:00':isRain?'12:30':'14:30', n:'바이롄ZX 쇼핑', d:'百联ZX. 7층 서브컬처 쇼핑몰! 실내라 주말/비 모두 OK', tip:'난징동루 한복판. 미니소, 캐릭터굿즈, 블라인드박스. 아키하바라급 스케일', type:'attraction', dur:'1시간', p:'bailianZX'});
+    if (isFull && !isRain) {
+      stops.push({t:'15:30', n:'호텔 휴식', d:'바이롄ZX가 호텔 바로 근처! 2시간 쉬면서 체력 충전', tip:'샤워+낮잠+충전. 예원야경까지 여유롭게!', type:'hotel', dur:'2시간', p:'grand_central'});
+    }
 
     if (!isFull) {
       stops.push({t: isRain?'13:30':'15:30', n:'호텔 휴식', d:'호텔에서 1시간 충전!', type:'hotel', dur:'1시간', p:'grand_central'});
     }
 
     if (!isRain) {
-      stops.push({t: isFull?'16:30':'17:00', n:'예원상청 야경', d:'전통 건물 조명 환상적! DAY3 낮과 완전 다른 분위기', tip:'일몰 ~18:10 직후 도착! 구곡교(九曲桥) 야경. 바이롄ZX에서 택시 약 10분', type:'attraction', dur:'30분', p:'yuyuan'});
+      stops.push({t: isFull?'18:15':'17:00', n:'예원상청 야경', d:'전통 건물 조명 환상적! DAY3 낮과 완전 다른 분위기', tip:'일몰 ~18:10 직후 도착! 구곡교(九曲桥) 야경. 바이롄ZX에서 택시 약 10분', type:'attraction', dur:'30분', p:'yuyuan'});
     }
 
-    stops.push({t: (isFull&&!isRain)?'17:30':(isFull&&isRain)?'15:30':isRain?'15:30':'18:00', n:'홍쿠이지아 (롱샤)', d:'红盔甲. 마지막 밤 저녁! 갈릭+마라 롱샤', tip:'金陵东路500号 亚龙国际广场 2층. 호텔 근처! 蒜蓉+麻辣 둘 다 주문', type:'food', dur:'1시간', p:'hongkuijia'});
+    stops.push({t: (isFull&&!isRain)?'19:00':(isFull&&isRain)?'15:30':isRain?'15:30':'18:00', n:'홍쿠이지아 (롱샤)', d:'红盔甲. 마지막 밤 저녁! 갈릭+마라 롱샤', tip:'金陵东路500号 亚龙国际广场 2층. 호텔 근처! 蒜蓉+麻辣 둘 다 주문', type:'food', dur:'1시간', p:'hongkuijia'});
 
-    stops.push({t: (isFull&&!isRain)?'19:00':(isFull&&isRain)?'17:00':isRain?'17:00':'19:30', n:'호텔 + 마지막 밤', d:'난징루 야경 산책하며 마지막 밤!', tip:'마라탕 or 자자탕바오 배달로 야식', type:'hotel', p:'grand_central'});
+    stops.push({t: (isFull&&!isRain)?'20:00':(isFull&&isRain)?'17:00':isRain?'17:00':'19:30', n:'호텔 + 마지막 밤', d:'난징루 야경 산책하며 마지막 밤!', tip:'마라탕 or 자자탕바오 배달로 야식', type:'hotel', p:'grand_central'});
 
     return stops;
   }
