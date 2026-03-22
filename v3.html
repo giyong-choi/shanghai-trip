@@ -203,9 +203,7 @@ function getStops(day, mode) {
       stops.push({t: isFull?'16:15':'15:00', n:'더 루프', d:'장 누벨 설계 빨간색 건축물! 스카이가든+서점', tip:'신천지 내. 빨간 벽돌 포토스팟! 임시정부에서 도보 5분', type:'attraction', dur:'20분', p:'the_roof'});
       stops.push({t: isFull?'16:45':'15:30', n:'신천지 산책', d:'스쿠먼 건축 골목. 카페, 바 밀집', tip:'헤이티(喜茶) 한잔! 더루프에서 도보 3분', type:'attraction', dur:'30분', p:'xintiandi'});
       if (isFull) {
-        stops.push({t:'17:15', n:'호텔 복귀 + 재정비', d:'씻고 쉬면서 체력 충전! 저녁 야경을 위해!', tip:'신천지에서 호텔 택시 약 10분. 샤워+옷 갈아입기+충전', type:'hotel', dur:'1시간30분', p:'grand_central'});
-        stops.push({t:'19:00', n:'락번드 예술구', d:'洛克外滩源. 역사건축+독립카페. 해 진 후 건물 조명 감상!', tip:'호텔에서 택시 약 10분. % Arabica, 堀口커피, THE MATCHA TOKYO 등. 여유롭게 야경 분위기 즐기기!', type:'attraction', dur:'45분', p:'rockbund'});
-        stops.push({t:'20:00', n:'와이탄 야경 산책', d:'락번드에서 와이탄으로! 유럽건물 야경 배경 인생샷 + 강 건너 푸동 스카이라인', tip:'락번드에서 도보 5분! 양방향 야경을 한 번에. 20시 이후가 조명 가장 화려!', type:'attraction', dur:'30분', p:'bund'});
+        stops.push({t:'17:15', n:'호텔 복귀 + 재정비', d:'씻고 쉬면서 체력 충전! 저녁을 위해!', tip:'신천지에서 호텔 택시 약 10분. 샤워+옷 갈아입기+충전. 19:00쯤 대중점평에서 很久以前 원격줄서기 시작!', type:'hotel', dur:'1시간30분', p:'grand_central'});
       }
     } else {
       stops.push({t: isFull?'14:30':'14:00', n:'호텔 휴식', d:'비 오니까 호텔에서 쉬기!', type:'hotel', dur:'1시간', p:'grand_central'});
@@ -213,7 +211,11 @@ function getStops(day, mode) {
       stops.push({t: isFull?'16:30':'16:00', n:'더 루프 + 신천지', d:'더루프 실내 관람 + 신천지 지붕 있는 구역', type:'attraction', dur:'45분', p:'the_roof'});
     }
 
-    stops.push({t: isRain?'17:00': isFull?'20:30':'17:00', n:'很久以前 제일백화점', d:'쿨링패치+양꼬치+맥주 인스타 3종세트! 한국인 인기 1위', tip:'南京东路830号 第一百货 B馆 6층. 새벽 1시까지! 웨이팅 팁: ① 19:30쯤 대중점평에서 "排队等位" 원격 줄서기 미리 시작! ② 한 명이 먼저 가서 번호표 뽑기 ③ 금요일은 토요일보다 대기 짧음 ④ 매장 입구 QR코드로 위챗 원격 대기 가능', type:'food', dur:'1.5시간', p:'yangkochi_yb'});
+    stops.push({t: isRain?'17:00': isFull?'19:00':'17:00', n:'很久以前 제일백화점', d:'쿨링패치+양꼬치+맥주 인스타 3종세트! 한국인 인기 1위', tip:'南京东路830号 第一百货 B馆 6층. 새벽 1시까지! 웨이팅 팁: ① 19:00 대중점평 "排队等位" 원격 줄서기! ② 한 명 먼저 번호표 ③ 금요일은 토요일보다 대기 짧음 ④ 매장 QR코드 위챗 대기', type:'food', dur:'1.5시간', p:'yangkochi_yb'});
+
+    if (isFull && !isRain) {
+      stops.push({t:'21:00', n:'푸동 강변 와이탄 야경 인생샷!', d:'지하철 2호선 南京东路→陆家嘴 1정거장(3분)! 푸동에서 와이탄 유럽건물 야경 배경 사진', tip:'루자쭈이역 나오면 바로 강변. 와이탄 불 켜진 건물들이 강 건너로 환상적! 사진 찍고 지하철로 호텔 복귀(1정거장)', type:'attraction', dur:'20분', p:'lujiazui'});
+    }
 
     if (!isFull) {
       stops.push({t:'19:00', n:'호텔 휴식', d:'일찍 쉬기. 배달 야식!', tip:'마라탕 or 자자탕바오 배달', type:'hotel', p:'grand_central'});
@@ -248,6 +250,9 @@ function getStops(day, mode) {
     if (!isRain) {
       stops.push({t: isFull?'14:30':'12:00', n:'매너커피 (동방명주 뷰)', d:'오후 순광 = 동방명주 인생샷! 실외지만 넓은 공간이라 주말도 OK', tip:'Manner Coffee 国客滨江店. 통유리+야외테라스. 3천원대 커피. 런허관에서 택시 약 15분', type:'food', dur:'45분', p:'manner'});
       stops.push({t: isFull?'15:15':'12:45', n:'북와이탄 빈장공원', d:'오후 순광 파노라마! 넓은 공원이라 주말에도 여유', tip:'매너커피 바로 옆 도보 3분', type:'attraction', dur:'30분', p:'north_bund'});
+      if (isFull) {
+        stops.push({t:'15:45', n:'락번드 낮 사진!', d:'洛克外滩源. 붉은 벽돌 건물 자연광 인생샷! 독립카페 거리', tip:'북와이탄에서 도보 15분. % Arabica, 堀口커피 등. 자연광이 벽돌에 비춰서 인스타 감성 최고!', type:'attraction', dur:'30분', p:'rockbund'});
+      }
     }
 
     stops.push({t: (isFull&&!isRain)?'16:00':(isFull&&isRain)?'13:00':isRain?'12:30':'14:30', n:'바이롄ZX 쇼핑', d:'百联ZX. 7층 서브컬처 쇼핑몰! 실내라 주말/비 모두 OK', tip:'난징동루 한복판. 미니소, 캐릭터굿즈, 블라인드박스. 아키하바라급 스케일', type:'attraction', dur:'1시간', p:'bailianZX'});
