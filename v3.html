@@ -221,15 +221,11 @@ function getStops(day, mode) {
   // ===== DAY 4 (토, 주말) - 실내/예약 위주 =====
   if (day === 4) {
     var stops = [
-      {t:'08:30', n:'지엔빙 아침', d:'난징루 노점에서 지엔빙궈쯔(煎饼果子). 5~10위안', type:'food', p:'grand_central'}
+      {t:'09:30', n:'지엔빙 아침', d:'1시간 더 자고 여유롭게! 난징루 노점에서 지엔빙궈쯔(煎饼果子). 5~10위안', type:'food', p:'grand_central'}
     ];
 
-    if (!isRain) {
-      stops.push({t:'09:30', n:'천안천수', d:'天安千树. 토마스 헤더윅 설계! 건물 위 나무 400그루', tip:'쑤저우하 인근. 호텔에서 택시 약 15분. 외관 사진 + 내부 쇼핑몰', type:'attraction', dur:'30분', p:'tiananqs'});
-    }
-
     if (isFull) {
-      stops.push({t: isRain?'09:30':'10:15', n:'프라다 롱자이 (실내)', d:'Prada荣宅. 1918년 저택. 실내라 주말 인파/비 무관!', tip:'陕西北路186号. 무료. 위챗 사전예약 확인. 천안천수에서 택시 약 15분', type:'attraction', dur:'30분', p:'prada'});
+      stops.push({t: isRain?'09:30':'10:15', n:'프라다 롱자이 (실내)', d:'Prada荣宅. 1918년 저택. 실내라 주말 인파/비 무관!', tip:'陕西北路186号. 무료. 위챗 사전예약 확인. 호텔에서 택시 약 15분', type:'attraction', dur:'30분', p:'prada'});
       stops.push({t: isRain?'10:15':'10:45', n:'홍더구거 + 아더에러 (실내)', d:'아더에러 플래그십 + Spot Table 커피. 실내 쇼핑!', tip:'陕西北路457号. 프라다에서 도보 5분', type:'attraction', dur:'45분', p:'hongde'});
     } else if (isRain) {
       stops.push({t:'09:30', n:'프라다 롱자이 (실내)', d:'비 오는 날 최고! 실내 전시', tip:'무료 입장', type:'attraction', dur:'45분', p:'prada'});
@@ -249,7 +245,8 @@ function getStops(day, mode) {
     stops.push({t: (isFull&&!isRain)?'14:30':(isFull&&isRain)?'13:00':isRain?'12:30':'14:30', n:'바이롄ZX 쇼핑', d:'百联ZX. 7층 서브컬처 쇼핑몰! 실내라 주말/비 모두 OK', tip:'난징동루 한복판. 미니소, 캐릭터굿즈, 블라인드박스. 아키하바라급 스케일', type:'attraction', dur:'1시간', p:'bailianZX'});
 
     if (isFull && !isRain) {
-      stops.push({t:'16:00', n:'호텔 휴식', d:'바이롄ZX가 호텔 바로 근처! 2시간 쉬면서 체력 충전', tip:'샤워+낮잠+충전. 예원야경까지 여유롭게!', type:'hotel', dur:'2시간', p:'grand_central'});
+      stops.push({t:'16:00', n:'천안천수', d:'天安千树. 토마스 헤더윅 설계! 건물 위 나무 400그루', tip:'쑤저우하 인근. 바이롄ZX에서 택시 약 15분. 외관 사진 + 내부 쇼핑몰', type:'attraction', dur:'30분', p:'tiananqs'});
+      stops.push({t:'16:45', n:'호텔 휴식', d:'천안천수에서 호텔로! 1시간 쉬면서 체력 충전', tip:'택시 약 15분. 샤워+충전. 예원야경까지 여유롭게!', type:'hotel', dur:'1시간15분', p:'grand_central'});
     }
 
     if (!isFull) {
